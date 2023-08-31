@@ -17,8 +17,8 @@ namespace sys_user {
 
     try {
       const user = await getByEmail(email)
-      if (!user || user.length === 0) {
-        Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error sys_user email already exist` })
+      if (user && user.length > 0) {
+        Logger.generateTimeLog({ label: Logger.Labels.PG, message: `create Error sys_user email already exist` })
         return false
       }
       const pwd_encrypted = await bcrypt.hash(password as string, BCRYPT_SALT_ROUNDS)
