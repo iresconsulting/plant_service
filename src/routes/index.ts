@@ -22,12 +22,12 @@ import sys_unit from '../models/pg/controllers/sys_unit'
 import sys_user from '../models/pg/controllers/sys_user'
 import bcrypt from 'bcrypt'
 import mng_record from '../models/pg/controllers/mng_record'
-import { createSysAgriculture } from '../models/pg/models/sys_agriculture'
-import { createSysDisease } from '../models/pg/models/sys_disease'
-import { createSysUser } from '../models/pg/models/sys_user'
-import { createSysUnit } from '../models/pg/models/sys_unit'
-import { createMngExamination } from '../models/pg/models/mng_examination'
-import { createMngRecord } from '../models/pg/models/mng_record'
+import { createSysAgriculture, dropSysAgriculture } from '../models/pg/models/sys_agriculture'
+import { createSysDisease, dropSysDisease } from '../models/pg/models/sys_disease'
+import { createSysUser, dropSysUser } from '../models/pg/models/sys_user'
+import { createSysUnit, dropSysUnit } from '../models/pg/models/sys_unit'
+import { createMngExamination, dropMngExamination } from '../models/pg/models/mng_examination'
+import { createMngRecord, dropMngRecord } from '../models/pg/models/mng_record'
 import transporter from '../utils/email'
 
 const router: Router = express.Router()
@@ -43,7 +43,16 @@ router.get('/db/init', async (req, res) => {
     }
     console.log('---tx start---');
     // drop
-
+    await dropMemberTable()
+    await dropMemberAdmimTable()
+    await dropSystemConfig()
+    await dropUserRoleTable()
+    await dropSysAgriculture()
+    await dropSysDisease()
+    await dropSysUnit()
+    await dropSysUser()
+    // await dropMngExamination()
+    await dropMngRecord()
     // create
     const create_res = await Promise.all([
       createMemberAdminTable(),
@@ -52,8 +61,8 @@ router.get('/db/init', async (req, res) => {
       createUserRoleTable(),
       createSysAgriculture(),
       createSysDisease(),
-      createSysUser(),
       createSysUnit(),
+      createSysUser(),
       // createMngExamination(),
       createMngRecord(),
     ])
