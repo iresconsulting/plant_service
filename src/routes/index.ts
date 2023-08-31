@@ -22,6 +22,12 @@ import sys_unit from '../models/pg/controllers/sys_unit'
 import sys_user from '../models/pg/controllers/sys_user'
 import bcrypt from 'bcrypt'
 import mng_record from '../models/pg/controllers/mng_record'
+import { createSysAgriculture } from '../models/pg/models/sys_agriculture'
+import { createSysDisease } from '../models/pg/models/sys_disease'
+import { createSysUser } from '../models/pg/models/sys_user'
+import { createSysUnit } from '../models/pg/models/sys_unit'
+import { createMngExamination } from '../models/pg/models/mng_examination'
+import { createMngRecord } from '../models/pg/models/mng_record'
 
 const router: Router = express.Router()
 
@@ -43,8 +49,12 @@ router.get('/db/init', async (req, res) => {
       createMemberTable(),
       createSystemConfig(),
       createUserRoleTable(),
-      // createChatRoomsTable(),
-      // createChatMessagesTable(),
+      createSysAgriculture(),
+      createSysDisease(),
+      createSysUser(),
+      createSysUnit(),
+      // createMngExamination(),
+      createMngRecord(),
     ])
     const config = await system_config.create('root', '1234qwer', false)
     const member = await Member.create({

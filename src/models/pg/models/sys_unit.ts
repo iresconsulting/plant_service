@@ -1,7 +1,7 @@
 import Logger from '~/src/utils/logger'
 import { client } from '..'
 
-export async function createcreateSysUnitSystemBonus(): Promise<void | false> {
+export async function createSysUnit(): Promise<void | false> {
   const sql: string = `
     CREATE TABLE IF NOT EXISTS sys_unit (
       id bigserial PRIMARY KEY,
