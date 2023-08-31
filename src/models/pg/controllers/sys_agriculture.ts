@@ -3,18 +3,18 @@ import { querySuccessHandler } from './utils'
 import Logger from '~/src/utils/logger'
 import { genDateNowWithoutLocalOffset } from '../utils/helpers'
 
-namespace record_salary {
+namespace sys_agriculture {
   export async function create(
-    { employee_id, basic_name, title_date, setup_date, types, remark, hidden, auditor, month, days, hours, amount_total }: Record<string, any>
+    { name, species, hidden }: Record<string, any>
   ): Promise<Array<any> | false> {
     const sql = `
-      INSERT INTO record_salary(employee_id, basic_name, title_date, setup_date, types, remark, hidden, auditor, month, days, hours, amount_total)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+      INSERT INTO sys_agriculture(name, species, hidden)
+      VALUES($1, $2, $3)
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [employee_id, basic_name, title_date, setup_date, types, remark, hidden, auditor, month, days, hours, amount_total])
+      const { rows } = await client.query(sql, [name, species, hidden])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `create Error ${(e as string).toString()}` })
@@ -26,7 +26,7 @@ namespace record_salary {
   export async function getAll(): Promise<Array<any> | false> {
     let sql = `
       SELECT *
-      FROM record_salary
+      FROM sys_agriculture
       ORDER BY last_updated DESC
     `
 
@@ -39,36 +39,36 @@ namespace record_salary {
     }
   }
 
-  export async function getByEid(eid: string): Promise<Array<any> | false> {
+  export async function getById(id: string): Promise<Array<any> | false> {
     let sql = `
       SELECT *
-      FROM record_salary
-      WHERE employee_id = $1
+      FROM sys_agriculture
+      WHERE id = $1
       ORDER BY last_updated DESC
     `
 
     try {
-      const { rows } = await client.query(sql, [eid])
+      const { rows } = await client.query(sql, [id])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
-      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `getByEid Error ${(e as string).toString()}` })
+      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `getById Error ${(e as string).toString()}` })
       return false
     }
   }
 
   export async function update(
-    { id, employee_id, basic_name, title_date, setup_date, types, remark, hidden, auditor, month, days, hours, amount_total }: Record<string, any>
+    { id, name, species, hidden }: Record<string, any>
 
   ): Promise<Array<any> | false> {
     const sql = `
-      UPDATE record_salary
-      SET employee_id = $2, basic_name = $3, title_date = $4, setup_date = $5, types = $6, remark = $7, hidden = $8, last_updated = $9, auditor = $10, month = $11, days = $12, hours = $13, amount_total = $14
+      UPDATE sys_agriculture
+      SET name = $2, species = $3, hidden = $4, last_updated = $5
       WHERE id = $1
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [id, employee_id, basic_name, title_date, setup_date, types, remark, hidden, genDateNowWithoutLocalOffset(), auditor, month, days, hours, amount_total])
+      const { rows } = await client.query(sql, [id, name, species, hidden, genDateNowWithoutLocalOffset()])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error ${(e as string).toString()}` })
@@ -81,7 +81,7 @@ namespace record_salary {
     hidden: boolean,
   ): Promise<Array<any> | false> {
     const sql = `
-      UPDATE record_salary
+      UPDATE sys_agriculture
       SET hidden = $2, last_updated = $3
       WHERE id = $1
       RETURNING *
@@ -97,4 +97,4 @@ namespace record_salary {
   }
 }
 
-export default record_salary
+export default sys_agriculture

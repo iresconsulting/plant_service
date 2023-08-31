@@ -5,22 +5,18 @@ import { genDateNowWithoutLocalOffset } from '../utils/helpers'
 
 namespace system_config {
   export async function create(
-    allow_whitelist: boolean,
-    off_default: string,
     root_usr: string,
     root_pwd: string,
-    pay_day_month: string,
-    deduct_tax_income: boolean,
     hidden: boolean,
   ): Promise<Array<any> | false> {
     const sql = `
-      INSERT INTO system_config(allow_whitelist, off_default, root_usr, root_pwd, pay_day_month, deduct_tax_income, hidden)
-      VALUES($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO system_config(root_usr, root_pwd, hidden)
+      VALUES($1, $2, $3)
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [allow_whitelist, off_default, root_usr, root_pwd, pay_day_month, deduct_tax_income, hidden])
+      const { rows } = await client.query(sql, [root_usr, root_pwd, hidden])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `create Error ${(e as string).toString()}` })
@@ -47,23 +43,19 @@ namespace system_config {
 
   export async function update(
     id: string,
-    allow_whitelist: boolean,
-    off_default: string,
     root_usr: string,
     root_pwd: string,
-    pay_day_month: string,
-    deduct_tax_income: boolean,
     hidden: boolean,
   ): Promise<Array<any> | false> {
     const sql = `
       UPDATE system_config
-      SET allow_whitelist = $2, off_default = $3, root_usr = $4, root_pwd = $5, pay_day_month = $6, deduct_tax_income = $7, hidden = $8, last_updated = $9
+      SET root_usr = $2, root_pwd = $3, hidden = $4, last_updated = $5
       WHERE id = $1
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [id, allow_whitelist, off_default, root_usr, root_pwd, pay_day_month, deduct_tax_income, hidden, genDateNowWithoutLocalOffset()])
+      const { rows } = await client.query(sql, [id, root_usr, root_pwd, hidden, genDateNowWithoutLocalOffset()])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error ${(e as string).toString()}` })

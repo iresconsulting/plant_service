@@ -9,37 +9,21 @@ import { pgArrToArr, pgArrToArr2 } from '../models/pg/utils/helpers'
 import { createMemberTable, dropMemberTable } from '../models/pg/models/member'
 import { createUserRoleTable, dropUserRoleTable } from '../models/pg/models/user_role'
 import { createMemberAdminTable, dropMemberAdmimTable } from '../models/pg/models/member_admin'
-import { createSystemWhitelist, dropSystemWhitelist } from '../models/pg/models/system_whitelist'
-import { createSystemOffTypes, dropSystemOffTypes } from '../models/pg/models/system_off_types'
-import { createSystemDepartments, dropSystemDepartments } from '../models/pg/models/system_departments'
-import { createSystemShifts, dropSystemShifts } from '../models/pg/models/system_shifts'
 import { createSystemConfig, dropSystemConfig } from '../models/pg/models/system_config'
-import { createHrClockRecord, dropHrClockRecord } from '../models/pg/models/hr_clock_record'
-import { createHrForm, dropHrForm } from '../models/pg/models/hr_form'
 import ChatRooms from '../models/pg/controllers/chat_rooms'
 import ChatMessages from '../models/pg/controllers/chat_messages'
-import { createChatMessagesTable, dropChatMessagesTable } from '../models/pg/models/chat_messages'
-import { createChatRoomsTable, dropChatRoomsTable } from '../models/pg/models/chat_rooms'
 import Firebase from '../utils/firebase'
 import Member from '../models/pg/controllers/member'
 import MemberAdmin from '../models/pg/controllers/member_admin'
 import UserRole from '../models/pg/controllers/user_role'
 import system_config from '../models/pg/controllers/system_config'
-import system_departments from '../models/pg/controllers/system_departments'
-import system_whitelist from '../models/pg/controllers/system_whitelist'
-import system_off_types from '../models/pg/controllers/system_off_types'
-import system_shifts from '../models/pg/controllers/system_shifts'
-import hr_form from '../models/pg/controllers/hr_form'
-import hr_clock_record from '../models/pg/controllers/hr_clock_record'
-import hr_shift from '../models/pg/controllers/hr_shift'
-import { createHrShift, dropHrShift } from '../models/pg/models/hr_shift'
-import { createSystemBonus } from '../models/pg/models/system_bonus'
-import system_bonus from '../models/pg/controllers/system_bonus'
-import record_salary from '../models/pg/controllers/record_salary'
-import { createRecordSalary } from '../models/pg/models/record_salary'
-import record_kpi from '../models/pg/controllers/record_kpi'
 import authMiddleware from './middleware/auth'
-import { createRecordKpi } from '../models/pg/models/record_kpi'
+import sys_agriculture from '../models/pg/controllers/sys_agriculture'
+import sys_disease from '../models/pg/controllers/sys_disease'
+import sys_unit from '../models/pg/controllers/sys_unit'
+import sys_user from '../models/pg/controllers/sys_user'
+import bcrypt from 'bcrypt'
+import mng_record from '../models/pg/controllers/mng_record'
 
 const router: Router = express.Router()
 
@@ -54,46 +38,24 @@ router.get('/db/init', async (req, res) => {
     }
     console.log('---tx start---');
     // drop
-    // await dropMemberTable()
-    // await dropMemberAdmimTable()
-    // await dropHrClockRecord()
-    // await dropHrForm()
-    // await dropHrShift()
-    // await dropSystemConfig()
-    // await dropSystemDepartments()
-    // await dropSystemOffTypes()
-    // await dropSystemShifts()
-    // await dropSystemWhitelist()
-    // await dropUserRoleTable()
-    // await dropChatRoomsTable()
-    // await dropChatMessagesTable()
+
     // create
     const create_res = await Promise.all([
       createMemberAdminTable(),
       createMemberTable(),
-      createHrClockRecord(),
-      createHrForm(),
-      createHrShift(),
       createSystemConfig(),
-      createSystemDepartments(),
-      createSystemOffTypes(),
-      createSystemShifts(),
-      createSystemWhitelist(),
-      createSystemBonus(),
       createUserRoleTable(),
-      createChatRoomsTable(),
-      createChatMessagesTable(),
-      createRecordSalary(),
-      createRecordKpi(),
+      // createChatRoomsTable(),
+      // createChatMessagesTable(),
     ])
-    const config = await system_config.create(false, '', 'root', '1234qwer', '5', false, false)
+    const config = await system_config.create('root', '1234qwer', false)
     const member = await Member.create({
-      employee_id: '999999',
-      basic_name: 'name',
+      employee_id: 'user',
+      basic_name: 'user',
       basic_govid: 'A123456789',
-      basic_birthday: '1995-01-01',
-      system_username: '999999',
-      system_password: '999999',
+      basic_birthday: '1970-01-01',
+      system_username: 'user',
+      system_password: '1234qwer',
     })
     console.log('config', config);
     console.log('member', member);
@@ -163,85 +125,85 @@ router.get('/version', async (req: Request, res: Response) => {
 //   }
 // })
 
-// get chat rooms
-router.get('/chat/rooms', async (req, res) => {
-  try {
-    const { is_public, user_id } = req.query
-    const _is_public = String(is_public)
-    const _user_id = String(user_id)
-    if (_is_public !== 'undefined' && _is_public === 'true') {
-      const list = await ChatRooms.getIsPublic()
-      return HttpRes.send200(res, 'success', list)
-    } else if (_user_id !== 'undefined') {
-      const list = await ChatRooms.getByRecipientId(_user_id)
-      return HttpRes.send200(res, 'success', list)
-    } else {
-      return HttpRes.send200(res, 'success', [])
-    }
-  } catch {
-   return HttpRes.send500(res)
-  }
-})
+// // get chat rooms
+// router.get('/chat/rooms', async (req, res) => {
+//   try {
+//     const { is_public, user_id } = req.query
+//     const _is_public = String(is_public)
+//     const _user_id = String(user_id)
+//     if (_is_public !== 'undefined' && _is_public === 'true') {
+//       const list = await ChatRooms.getIsPublic()
+//       return HttpRes.send200(res, 'success', list)
+//     } else if (_user_id !== 'undefined') {
+//       const list = await ChatRooms.getByRecipientId(_user_id)
+//       return HttpRes.send200(res, 'success', list)
+//     } else {
+//       return HttpRes.send200(res, 'success', [])
+//     }
+//   } catch {
+//    return HttpRes.send500(res)
+//   }
+// })
 
-// create, update chat rooms
-router.post('/chat/rooms', async (req, res) => {
-  try {
-    const { id, recipient_one_id, recipient_one_name, recipient_two_id, recipient_two_name,  latest_message_content, latest_message_time, latest_message_sender_name, latest_message_sender_id, room_name, is_public, group_ids, hidden, removed, icon } = req.body
-    if (id) {
-      const list = await ChatRooms.update({ id, latest_message_content, latest_message_time, latest_message_sender_name, latest_message_sender_id, hidden, removed, room_name, group_ids, is_public, icon })
-      return HttpRes.send200(res, 'success', list)
-    } else {
-      const list = await ChatRooms.create({ recipient_one_id, recipient_one_name, recipient_two_id, recipient_two_name,  latest_message_content, latest_message_time, latest_message_sender_name, latest_message_sender_id, room_name, is_public, group_ids, icon })
-      return HttpRes.send200(res, 'success', list)
-    }
-  } catch {
-   return HttpRes.send500(res)
-  }
-})
+// // create, update chat rooms
+// router.post('/chat/rooms', async (req, res) => {
+//   try {
+//     const { id, recipient_one_id, recipient_one_name, recipient_two_id, recipient_two_name,  latest_message_content, latest_message_time, latest_message_sender_name, latest_message_sender_id, room_name, is_public, group_ids, hidden, removed, icon } = req.body
+//     if (id) {
+//       const list = await ChatRooms.update({ id, latest_message_content, latest_message_time, latest_message_sender_name, latest_message_sender_id, hidden, removed, room_name, group_ids, is_public, icon })
+//       return HttpRes.send200(res, 'success', list)
+//     } else {
+//       const list = await ChatRooms.create({ recipient_one_id, recipient_one_name, recipient_two_id, recipient_two_name,  latest_message_content, latest_message_time, latest_message_sender_name, latest_message_sender_id, room_name, is_public, group_ids, icon })
+//       return HttpRes.send200(res, 'success', list)
+//     }
+//   } catch {
+//    return HttpRes.send500(res)
+//   }
+// })
 
-// get chat messages
-router.get('/chat/messages', async (req, res) => {
-  try {
-    const { room_id, user_id } = req.query
-    const _room_id = String(room_id)
-    // const _user_id = String(user_id)
-    if (_room_id !== 'undefined') {
-      const list = await ChatMessages.getByRoomId(_room_id, 30)
-      return HttpRes.send200(res, 'success', list)
-    } else {
-      return HttpRes.send200(res, 'success', [])
-    }
-  } catch {
-   return HttpRes.send500(res)
-  }
-})
+// // get chat messages
+// router.get('/chat/messages', async (req, res) => {
+//   try {
+//     const { room_id, user_id } = req.query
+//     const _room_id = String(room_id)
+//     // const _user_id = String(user_id)
+//     if (_room_id !== 'undefined') {
+//       const list = await ChatMessages.getByRoomId(_room_id, 30)
+//       return HttpRes.send200(res, 'success', list)
+//     } else {
+//       return HttpRes.send200(res, 'success', [])
+//     }
+//   } catch {
+//    return HttpRes.send500(res)
+//   }
+// })
 
-// create, update chat messages
-router.post('/chat/messages', async (req, res) => {
-  try {
-    const { id, room_id, sender_id, sender_name, receiver_id, receiver_name, content, hidden, removed, reverted  } = req.body
-    if (id) {
-      const list = await ChatMessages.update({ id, content, hidden, removed, reverted })
-      return HttpRes.send200(res, 'success', list)
-    } else {
-      const list = await ChatMessages.create({ room_id, sender_id, sender_name, receiver_id, receiver_name, content })
-      return HttpRes.send200(res, 'success', list)
-    }
-  } catch {
-   return HttpRes.send500(res)
-  }
-})
+// // create, update chat messages
+// router.post('/chat/messages', async (req, res) => {
+//   try {
+//     const { id, room_id, sender_id, sender_name, receiver_id, receiver_name, content, hidden, removed, reverted  } = req.body
+//     if (id) {
+//       const list = await ChatMessages.update({ id, content, hidden, removed, reverted })
+//       return HttpRes.send200(res, 'success', list)
+//     } else {
+//       const list = await ChatMessages.create({ room_id, sender_id, sender_name, receiver_id, receiver_name, content })
+//       return HttpRes.send200(res, 'success', list)
+//     }
+//   } catch {
+//    return HttpRes.send500(res)
+//   }
+// })
 
-// get record kpi
-router.get('/record/kpi', authMiddleware, async (req, res) => {
+// get sys agriculture
+router.get('/sys/agriculture', authMiddleware, async (req, res) => {
   try {
-    const { eid } = req.query
-    const _eid = String(eid)
+    const { id } = req.query
+    const _id = String(id)
     let list = []
-    if (_eid !== 'undefined') {
-      list = await record_kpi.getByEid(_eid) || []
+    if (_id !== 'undefined') {
+      list = await sys_agriculture.getById(_id) || []
     } else {
-      list = await record_kpi.getAll() || []
+      list = await sys_agriculture.getAll() || []
     }
     list.map((v) => {
       return {
@@ -254,15 +216,15 @@ router.get('/record/kpi', authMiddleware, async (req, res) => {
   }
 })
 
-// create, update record kpi
-router.post('/record/kpi', authMiddleware, async (req, res) => {
+// create, update sys agriculture
+router.post('/sys/agriculture', authMiddleware, async (req, res) => {
   try {
-    const { id, employee_id, basic_name, record_date, valid_date, types, tags, remark, hidden, auditor, amount_total } = req.body
+    const { id, name, species, hidden } = req.body
     if (id) {
-      const list = await record_kpi.update({ id, employee_id, basic_name, record_date, valid_date, types, tags, remark, hidden, auditor, amount_total })
+      const list = await sys_agriculture.update({ id, name, species, hidden })
       return HttpRes.send200(res, 'success', list)
     } else {
-      const list = await record_kpi.create({ employee_id, basic_name, record_date, valid_date, types, tags, remark, hidden, auditor, amount_total })
+      const list = await sys_agriculture.create({ name, species, hidden })
       return HttpRes.send200(res, 'success', list)
     }
   } catch(e) {
@@ -270,16 +232,16 @@ router.post('/record/kpi', authMiddleware, async (req, res) => {
   }
 })
 
-// get record salary
-router.get('/record/salary', authMiddleware, async (req, res) => {
+// get sys disease
+router.get('/sys/disease', authMiddleware, async (req, res) => {
   try {
-    const { eid } = req.query
-    const _eid = String(eid)
+    const { id } = req.query
+    const _id = String(id)
     let list = []
-    if (_eid !== 'undefined') {
-      list = await record_salary.getByEid(_eid) || []
+    if (_id !== 'undefined') {
+      list = await sys_disease.getById(_id) || []
     } else {
-      list = await record_salary.getAll() || []
+      list = await sys_disease.getAll() || []
     }
     list.map((v) => {
       return {
@@ -292,15 +254,15 @@ router.get('/record/salary', authMiddleware, async (req, res) => {
   }
 })
 
-// create, update record salary
-router.post('/record/salary', authMiddleware, async (req, res) => {
+// create, update sys disease
+router.post('/sys/disease', authMiddleware, async (req, res) => {
   try {
-    const { id, employee_id, basic_name, title_date, setup_date, types, remark, hidden, auditor, month, days, hours, amount_total } = req.body
+    const { id, name, sickness, bug, symptoms, body_part, hidden } = req.body
     if (id) {
-      const list = await record_salary.update({ id, employee_id, basic_name, title_date, setup_date, types, remark, hidden, auditor, month, days, hours, amount_total })
+      const list = await sys_disease.update({ id, name, sickness, bug, symptoms, body_part, hidden })
       return HttpRes.send200(res, 'success', list)
     } else {
-      const list = await record_salary.create({ employee_id, basic_name, title_date, setup_date, types, remark, hidden, auditor, month, days, hours, amount_total })
+      const list = await sys_disease.create({ name, sickness, bug, symptoms, body_part, hidden })
       return HttpRes.send200(res, 'success', list)
     }
   } catch(e) {
@@ -308,101 +270,37 @@ router.post('/record/salary', authMiddleware, async (req, res) => {
   }
 })
 
-// get system bonus
-router.get('/system/bonus', authMiddleware, async (req, res) => {
+// get sys unit
+router.get('/sys/unit', authMiddleware, async (req, res) => {
   try {
-    const list = await system_bonus.getAll()
+    const { id } = req.query
+    const _id = String(id)
+    let list = []
+    if (_id !== 'undefined') {
+      list = await sys_unit.getById(_id) || []
+    } else {
+      list = await sys_unit.getAll() || []
+    }
+    list.map((v) => {
+      return {
+        ...v,
+      }
+    })
     return HttpRes.send200(res, 'success', list)
-  } catch {
-  return HttpRes.send500(res)
-    }
-})
-
-// create, update system bonus
-router.post('/system/bonus', authMiddleware, async (req, res) => {
-  try {
-    const { id, title, base, amount, percentage, payment_method, payment_date_start, payment_date_end, hidden } = req.body
-    if (id) {
-      const list = await system_bonus.update({ id, title, base, amount, percentage, payment_method, payment_date_start, payment_date_end, hidden })
-      return HttpRes.send200(res, 'success', list)
-    } else {
-      const list = await system_bonus.create({ title, base, amount, percentage, payment_method, payment_date_start, payment_date_end, hidden })
-      return HttpRes.send200(res, 'success', list)
-    }
   } catch(e) {
-    return HttpRes.send500(res, String(e))
-  }
-})
-
-// get hr shift
-router.get('/hr/shift', authMiddleware, async (req, res) => {
-  try {
-    const { eid } = req.query
-    const _eid = String(eid)
-    if (_eid !== 'undefined') {
-      const list = await hr_shift.getByEid(_eid)
-      return HttpRes.send200(res, 'success', list)
-    } else {
-      return HttpRes.send200(res, 'success', [])
-    }
-  } catch {
-  return HttpRes.send500(res)
-    }
-})
-
-// create, update hr shift
-router.post('/hr/shift', authMiddleware, async (req, res) => {
-  try {
-    const { id, action_type, employee_id, system_username, date, shift_title, start_time, end_time, remark, is_approved, is_pending, is_rejected, approve_users, tags } = req.body
-    if (id) {
-      const list = await hr_shift.update({ id, employee_id, system_username, date, shift_title, start_time, end_time, remark, is_approved, is_pending, is_rejected, approve_users, tags })
-      return HttpRes.send200(res, 'success', list)
-    } else {
-      const list = await hr_shift.create({ employee_id, system_username, date, shift_title, start_time, end_time, remark, is_approved, is_pending, is_rejected, approve_users, tags })
-      return HttpRes.send200(res, 'success', list)
-    }
-  } catch(e) {
-    return HttpRes.send500(res, String(e))
-  }
-})
-
-// get hr clock
-router.get('/hr/clock', authMiddleware, async (req, res) => {
-  try {
-    const { eid, date, start_date, end_date } = req.query
-    const _eid = String(eid)
-    const _start_date = String(start_date)
-    const _end_date = String(end_date)
-    const _date = String(date)
-    if (_eid !== 'undefined' && _start_date !== 'undefined' && _end_date !== 'undefined') {
-      const list = await hr_clock_record.getByEidAndRangeDate(_eid, _start_date?.split(' ')[0], _end_date?.split(' ')[0])
-      return HttpRes.send200(res, 'success', list)
-    }
-    if (_eid !== 'undefined' && _date !== 'undefined') {
-      const list = await hr_clock_record.getByEidAndExactDate(_eid, _date?.split(' ')[0])
-      return HttpRes.send200(res, 'success', list)
-    }
-    if (_eid !== 'undefined') {
-      const list = await hr_clock_record.getByEid(_eid)
-      return HttpRes.send200(res, 'success', list)
-    } else {
-      const list = await hr_clock_record.getAll()
-      return HttpRes.send200(res, 'success', list)
-    }
-  } catch {
     return HttpRes.send500(res)
   }
 })
 
-// create, update hr clock
-router.post('/hr/clock', authMiddleware, async (req, res) => {
+// create, update sys unit
+router.post('/sys/unit', authMiddleware, async (req, res) => {
   try {
-    const { id, action_type, employee_id, date, system_username, status, time_in, time_out, remark } = req.body
+    const { id, name, location, contact, phone, hidden } = req.body
     if (id) {
-      const list = await hr_clock_record.update(id, employee_id, date, system_username, status, time_in, time_out, remark)
+      const list = await sys_unit.update({ id, name, location, contact, phone, hidden })
       return HttpRes.send200(res, 'success', list)
     } else {
-      const list = await hr_clock_record.create(employee_id, date, system_username, status, time_in, time_out, remark)
+      const list = await sys_unit.create({ name, location, contact, phone, hidden })
       return HttpRes.send200(res, 'success', list)
     }
   } catch(e) {
@@ -410,159 +308,103 @@ router.post('/hr/clock', authMiddleware, async (req, res) => {
   }
 })
 
-// get hr form
-router.get('/hr/form', authMiddleware, async (req, res) => {
+// get sys user
+router.get('/sys/user', authMiddleware, async (req, res) => {
   try {
-    const { eid } = req.query
-    const _eid = String(eid)
-    if (_eid !== 'undefined') {
-      const list = await hr_form.getByEid(_eid)
-      return HttpRes.send200(res, 'success', list)
+    const { id } = req.query
+    const _id = String(id)
+    let list = []
+    if (_id !== 'undefined') {
+      list = await sys_user.getById(_id) || []
     } else {
-      return HttpRes.send200(res, 'success', [])
+      list = await sys_user.getAll() || []
     }
-  } catch {
-   return HttpRes.send500(res)
-  }
-})
-
-// create, update hr form
-router.post('/hr/form', authMiddleware, async (req, res) => {
-  try {
-    const { action_type, id, approver_user_id, employee_id, system_username, apply_type, start_date, end_date, remark, is_approved, is_pending, is_rejected, approve_users, tags } = req.body
-    // if (action_type === 'approve' && id) {
-    //   const list = await hr_form.updateApprove({
-    //     id,
-    //     approver_user_id
-    //   })
-    //   return HttpRes.send200(res, 'success', list)
-    // } else if (action_type === 'reject' && id) {
-    //   const list = await hr_form.updateReject({
-    //     id,
-    //     approver_user_id
-    //   })
-    //   return HttpRes.send200(res, 'success', list)
-    // } else
-    if (id) {
-      const list = await hr_form.update({
-        id,
-        apply_type, start_date, end_date, remark, is_approved, is_pending, is_rejected, approve_users, tags
-      })
-      return HttpRes.send200(res, 'success', list)
-    } else {
-      const list = await hr_form.create({
-        employee_id, system_username, apply_type, start_date, end_date, remark, is_approved, is_pending, is_rejected, approve_users, tags
-      })
-      return HttpRes.send200(res, 'success', list)
-    }
-  } catch(e) {
-    return HttpRes.send500(res, String(e))
-  }
-})
-
-// get system_shifts
-router.get('/system/shifts', authMiddleware, async (req, res) => {
-  try {
-    const list = await system_shifts.getAll() || []
+    list.map((v) => {
+      return {
+        ...v,
+      }
+    })
     return HttpRes.send200(res, 'success', list)
-  } catch {
-   return HttpRes.send500(res)
+  } catch(e) {
+    return HttpRes.send500(res)
   }
- })
+})
 
-// update system_shifts
-router.post('/system/shifts', authMiddleware, async (req, res) => {
+// create, update sys user
+router.post('/sys/user', authMiddleware, async (req, res) => {
   try {
-    const { id, action_type, title, head_count, start_time, end_time, remark, hidden } = req.body
-    if (action_type === 'delete' && id && hidden !== undefined) {
-      const list = await system_shifts.hide(id, hidden)
+    const { id, name, email, phone, account, password, hidden } = req.body
+    if (id) {
+      const list = await sys_user.update({ id, name, email, phone, account, password, hidden })
+      return HttpRes.send200(res, 'success', list)
+    } else {
+      const list = await sys_user.create({ name, email, phone, account, password, hidden })
+      return HttpRes.send200(res, 'success', list)
+    }
+  } catch(e) {
+    return HttpRes.send500(res, String(e))
+  }
+})
+
+// login sys user
+router.post('/sys/user/login', authMiddleware, async (req, res) => {
+  try {
+    const { account, password } = req.body
+    const list = await sys_user.getByAccount(account)
+    if (list && list.length) {
+      const user = list[0]
+      if (!user.hidden) {
+        const match = await bcrypt.compare(password, user?.password)
+        if (match) {
+          return HttpRes.send200(res, 'success', list)
+        }
+      }
+    }
+    throw new Error('not authenticated')
+  } catch(e) {
+    return HttpRes.send500(res, String(e))
+  }
+})
+
+// get mng record
+router.get('/mng/record', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.query
+    const _id = String(id)
+    let list = []
+    if (_id !== 'undefined') {
+      list = await mng_record.getById(_id) || []
+    } else {
+      list = await mng_record.getAll() || []
+    }
+    list.map((v) => {
+      return {
+        ...v,
+      }
+    })
+    return HttpRes.send200(res, 'success', list)
+  } catch(e) {
+    return HttpRes.send500(res)
+  }
+})
+
+// create, update mng record
+router.post('/mng/record', authMiddleware, async (req, res) => {
+  try {
+    const { action_type, id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden } = req.body
+    if (action_type === 'status' && id && status !== undefined) {
+      const list = await mng_record.update_status(id, status)
       return HttpRes.send200(res, 'success', list)
     } else if (id) {
-      const list = await system_shifts.update(id, title, head_count, start_time, end_time, remark, hidden)
+      const list = await mng_record.update({ id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, hidden })
       return HttpRes.send200(res, 'success', list)
     } else {
-      const list = await system_shifts.create(title, head_count, start_time, end_time, remark, hidden)
+      const list = await mng_record.create({time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, hidden })
       return HttpRes.send200(res, 'success', list)
     }
   } catch(e) {
     return HttpRes.send500(res, String(e))
   }
-})
-
- // get system offtypes
-router.get('/system/offtypes', authMiddleware, async (req, res) => {
-  try {
-    const list = await system_off_types.getAll() || []
-    return HttpRes.send200(res, 'success', list)
-  } catch {
-    return HttpRes.send500(res)
-  }
-})
-
-// create, update system offtypes
-router.post('/system/offtypes', authMiddleware, async (req, res) => {
-  try {
-    const body: {
-      action_type?: string;
-      id?: string;
-      title: string,
-      unit: string,
-      days: boolean,
-      pay_type: string,
-      hidden: boolean,
-    } = req.body
-    if (body?.action_type === 'delete' && body?.id && body?.hidden !== undefined) {
-    const list = await system_off_types.hide(body?.id, body?.hidden)
-    return HttpRes.send200(res, 'success', list)
-    } else if (body?.id) {
-      const list = await system_off_types.update(body?.id, body?.title, body?.unit, body?.days, body?.pay_type, body?.hidden)
-      return HttpRes.send200(res, 'success', list)
-    } else {
-      const list = await system_off_types.create(body?.title, body?.unit, body?.days, body?.pay_type, body?.hidden)
-      return HttpRes.send200(res, 'success', list)
-    }
-  } catch(e) {
-    return HttpRes.send500(res, String(e))
-  }
-})
-
-// get system whitelist
-router.get('/system/whitelist', authMiddleware, async (req, res) => {
- try {
-  const list = await system_whitelist.getAll()
-  return HttpRes.send200(res, 'success', list)
- } catch(e) {
-  return HttpRes.send500(res, String(e))
- }
-})
-
-// create, update system whitelist
-router.post('/system/whitelist', authMiddleware, async (req, res) => {
-try {
-  const body: {
-    action_type?: string;
-    id?: string;
-    title: string,
-    content: string,
-    lat: string,
-    lng: string,
-    type: string,
-    tags: string,
-    hidden: boolean,
-  } = req.body
-  if (body?.action_type === 'delete' && body?.id && body?.hidden !== undefined) {
-  const list = await system_whitelist.hide(body.id, body.hidden)
-  return HttpRes.send200(res, 'success', list)
-  } else if (body?.id) {
-    const list = await system_whitelist.update(body.id, body.title, body.content, body.lat, body.lng, body.type, body.tags, !!body.hidden|| false)
-    return HttpRes.send200(res, 'success', list)
-  } else {
-  const list = await system_whitelist.create(body.title, body.content, body.lat, body.lng, body.type, body.tags, !!body.hidden || false)
-  return HttpRes.send200(res, 'success', list)
-  }
-} catch(e) {
-  return HttpRes.send500(res, String(e))
-}
 })
 
 // get roles
@@ -584,44 +426,6 @@ router.post('/roles', authMiddleware, async (req, res) => {
       return HttpRes.send200(res, 'success', update)
     } else {
       const insert = await UserRole.create(name)
-      return HttpRes.send200(res, 'success', insert)
-    }
-   } catch {
-    return HttpRes.send500(res)
-   }
-})
-
- // get departments
- router.get('/system/departments', authMiddleware, async (req, res) => {
-  try {
-    const list = await system_departments.getAll() || []
-    return HttpRes.send200(res, 'success', list)
-  } catch {
-    return HttpRes.send500(res)
-  }
-})
-
-// create, update departments
-router.post('/system/departments', authMiddleware, async (req, res) => {
-  try {
-    const body: {
-      id?: string;
-      title: string,
-      head_count: string,
-      parent_department: string,
-      parent_position: string,
-      whitelist: string,
-      is_position: boolean,
-      is_department: boolean,
-      hidden: boolean
-    } = req.body
-    if (body?.id) {
-      const update = await system_departments.update(body.id, body.title, body.head_count, body.parent_department, body.parent_position, body.whitelist, body.is_position, body.is_department, body.hidden)
-      return HttpRes.send200(res, 'success', update)
-    } else {
-      const insert = await system_departments.create(
-        body.title, body.head_count, body.parent_department, body.parent_position, body.whitelist, body.is_position, body.is_department, body.hidden
-      )
       return HttpRes.send200(res, 'success', insert)
     }
    } catch {
@@ -826,9 +630,9 @@ router.get('/config', authMiddleware, async (req, res) => {
 // update system config
 router.post('/config', authMiddleware, async (req, res) => {
   try {
-    const { id, root_usr, root_pwd, allow_whitelist, off_default, pay_day_month, deduct_tax_income, hidden } = req.body
+    const { id, root_usr, root_pwd, hidden } = req.body
     if (id) {
-      const update = await system_config.update(id, allow_whitelist, off_default, root_usr, root_pwd, pay_day_month, deduct_tax_income, hidden)
+      const update = await system_config.update(id, root_usr, root_pwd, hidden)
       return HttpRes.send200(res, 'success', update)
     } else {
       // const insert = await system_config.create(allow_whitelist, off_default, root_usr, root_pwd, pay_day_month, deduct_tax_income, hidden)

@@ -3,24 +3,18 @@ import { querySuccessHandler } from './utils'
 import Logger from '~/src/utils/logger'
 import { genDateNowWithoutLocalOffset } from '../utils/helpers'
 
-namespace system_whitelist {
+namespace sys_unit {
   export async function create(
-    title: string,
-    content: string,
-    lat: string,
-    lng: string,
-    type: string,
-    tags: string,
-    hidden: boolean,
+    { name, location, contact, phone, hidden }: Record<string, any>
   ): Promise<Array<any> | false> {
     const sql = `
-      INSERT INTO system_whitelist(title, content, lat, lng, type, tags, hidden)
-      VALUES($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO sys_unit(name, location, contact, phone, hidden)
+      VALUES($1, $2, $3, $4, $5)
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [title, content, lat, lng, type, tags, hidden])
+      const { rows } = await client.query(sql, [name, location, contact, phone, hidden])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `create Error ${(e as string).toString()}` })
@@ -32,7 +26,7 @@ namespace system_whitelist {
   export async function getAll(): Promise<Array<any> | false> {
     let sql = `
       SELECT *
-      FROM system_whitelist
+      FROM sys_unit
       ORDER BY last_updated DESC
     `
 
@@ -48,7 +42,7 @@ namespace system_whitelist {
   export async function getById(id: string): Promise<Array<any> | false> {
     let sql = `
       SELECT *
-      FROM system_whitelist
+      FROM sys_unit
       WHERE id = $1
       ORDER BY last_updated DESC
     `
@@ -63,24 +57,18 @@ namespace system_whitelist {
   }
 
   export async function update(
-    id: string,
-    title: string,
-    content: string,
-    lat: string,
-    lng: string,
-    type: string,
-    tags: string,
-    hidden: boolean,
+    { id, name, location, contact, phone, hidden }: Record<string, any>
+
   ): Promise<Array<any> | false> {
     const sql = `
-      UPDATE system_whitelist
-      SET title = $2, content = $3, lat = $4, lng = $5, type = $6, tags = $7, hidden = $8, last_updated = $9
+      UPDATE sys_unit
+      SET name = $2, location = $3, contact = $4, phone = $5, hidden = $6, last_updated = $7
       WHERE id = $1
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [id, title, content, lat, lng, type, tags, hidden, genDateNowWithoutLocalOffset()])
+      const { rows } = await client.query(sql, [id, name, location, contact, phone, hidden, genDateNowWithoutLocalOffset()])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error ${(e as string).toString()}` })
@@ -93,7 +81,7 @@ namespace system_whitelist {
     hidden: boolean,
   ): Promise<Array<any> | false> {
     const sql = `
-      UPDATE system_whitelist
+      UPDATE sys_unit
       SET hidden = $2, last_updated = $3
       WHERE id = $1
       RETURNING *
@@ -109,4 +97,4 @@ namespace system_whitelist {
   }
 }
 
-export default system_whitelist
+export default sys_unit

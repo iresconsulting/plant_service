@@ -3,18 +3,18 @@ import { querySuccessHandler } from './utils'
 import Logger from '~/src/utils/logger'
 import { genDateNowWithoutLocalOffset } from '../utils/helpers'
 
-namespace system_bonus {
+namespace mng_record {
   export async function create(
-    { title, base, amount, percentage, payment_method, payment_date_start, payment_date_end, hidden }: Record<string, any>
+    { time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden }: Record<string, any>
   ): Promise<Array<any> | false> {
     const sql = `
-      INSERT INTO system_bonus(title, base, amount, percentage, payment_method, payment_date_start, payment_date_end, hidden)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO mng_record(time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [title, base, amount, percentage, payment_method, payment_date_start, payment_date_end, hidden])
+      const { rows } = await client.query(sql, [time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `create Error ${(e as string).toString()}` })
@@ -26,7 +26,7 @@ namespace system_bonus {
   export async function getAll(): Promise<Array<any> | false> {
     let sql = `
       SELECT *
-      FROM system_bonus
+      FROM mng_record
       ORDER BY last_updated DESC
     `
 
@@ -42,7 +42,7 @@ namespace system_bonus {
   export async function getById(id: string): Promise<Array<any> | false> {
     let sql = `
       SELECT *
-      FROM system_bonus
+      FROM mng_record
       WHERE id = $1
       ORDER BY last_updated DESC
     `
@@ -57,18 +57,18 @@ namespace system_bonus {
   }
 
   export async function update(
-    { id, title, base, amount, percentage, payment_method, payment_date_start, payment_date_end, hidden }: Record<string, any>
+    { id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden }: Record<string, any>
 
   ): Promise<Array<any> | false> {
     const sql = `
-      UPDATE system_bonus
-      SET title = $2, base = $3, amount = $4, percentage = $5, payment_method = $6, payment_date_start = $7, payment_date_end = $8, hidden = $9, last_updated = $10
+      UPDATE mng_record
+      SET time = $2, location = $3, agriculture = $4, symptoms = $5, body_part = $6, raised_method = $7, user_name = $8, user_phone = $9, user_email = $10, hidden = $11, status = $12, last_updated = $13
       WHERE id = $1
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [id, title, base, amount, percentage, payment_method, payment_date_start, payment_date_end, hidden, genDateNowWithoutLocalOffset()])
+      const { rows } = await client.query(sql, [id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden, genDateNowWithoutLocalOffset()])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error ${(e as string).toString()}` })
@@ -81,7 +81,7 @@ namespace system_bonus {
     hidden: boolean,
   ): Promise<Array<any> | false> {
     const sql = `
-      UPDATE system_bonus
+      UPDATE mng_record
       SET hidden = $2, last_updated = $3
       WHERE id = $1
       RETURNING *
@@ -95,6 +95,26 @@ namespace system_bonus {
       return false
     }
   }
+
+  export async function update_status(
+    id: string,
+    status: boolean,
+  ): Promise<Array<any> | false> {
+    const sql = `
+      UPDATE mng_record
+      SET status = $2, last_updated = $3
+      WHERE id = $1
+      RETURNING *
+    `
+
+    try {
+      const { rows } = await client.query(sql, [id, status, genDateNowWithoutLocalOffset()])
+      return querySuccessHandler(rows)
+    } catch (e: unknown) {
+      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `hide Error ${(e as string).toString()}` })
+      return false
+    }
+  }
 }
 
-export default system_bonus
+export default mng_record
