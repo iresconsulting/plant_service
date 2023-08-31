@@ -355,17 +355,17 @@ router.post('/mng/record', authMiddleware, async (req, res) => {
   try {
     const { action_type, id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden } = req.body
     if (action_type === 'status' && id && status !== undefined) {
-      const list = await mng_record.update_status(id, status)
-      await mng_record.update_response(id, response)
+      await mng_record.update_status(id, status)
+      const list = await mng_record.update_response(id, response)
       if (list && list.length) {
-        const user = list[0]
-        if (user?.user_email) {
+        const record = list[0]
+        if (record?.user_email) {
           await transporter.sendMail({
             from: SENDER_EMAIL,
             sender: SENDER_EMAIL,
-            to: user?.user_email,
+            to: record?.user_email,
             subject: `病蟲害診斷結果 - #${id}`,
-            text: '',
+            text: record?.response,
             // cc: SENDER_EMAIL,
           })
         }
