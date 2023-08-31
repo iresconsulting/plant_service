@@ -315,10 +315,12 @@ router.post('/sys/user/login', authMiddleware, async (req, res) => {
               expiresIn: "7d",
             }
           );
-          return HttpRes.send200(res, 'success', {
+          const payload = {
             ...user,
             token,
-          })
+          }
+          delete payload?.password
+          return HttpRes.send200(res, 'success', payload)
         }
       }
     }
@@ -339,6 +341,7 @@ router.get('/sys/user/verification', async (req, res) => {
       // @ts-ignore
       const getUser = await sys_user.getById(decoded?.id)
       if (getUser && getUser.length) {
+        delete getUser[0]?.password
         return HttpRes.send200(res, 'success', { ...getUser[0] })
       }
     }
