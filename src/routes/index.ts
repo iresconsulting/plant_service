@@ -366,6 +366,26 @@ router.post('/sys/user/login', authMiddleware, async (req, res) => {
   }
 })
 
+//verify sys user
+router.get('/sys/user/verification', async (req, res) => {
+  try {
+    const authorization = req.headers['authorization'] || ''
+    const split = authorization?.split('Bearer ')
+    if (split?.length === 2) {
+      const token = split[1]
+      const decoded = jwt.verify(token, TOKEN_KEY);
+      // @ts-ignore
+      const getUser = await sys_user.getById(decoded?.id)
+      if (getUser && getUser.length) {
+        return HttpRes.send200(res, 'success', { ...getUser[0] })
+      }
+    }
+    return HttpRes.send400(res)
+  } catch(e) {
+    return HttpRes.send500(res, String(e))
+  }
+})
+
 // get mng record
 router.get('/mng/record', authMiddleware, async (req, res) => {
   try {
@@ -692,26 +712,6 @@ router.post('/admin/login', async (req, res) => {
     return HttpRes.send500(res, String(e))
    }
 })
-
-// router.post('/member/password', async (req, res) => {
-//   try {
-//     const { id, usr, pwd_old, pwd, action_type } = req.body
-//     if (!usr || !pwd || pwd === '') {
-//       return HttpRes.send400(res)
-//     }
-//     const getUser = await Member.getByUsernameAndPwd(usr, pwd)      
-//     if (getUser && getUser.length) {
-//       const user = getUser[0]
-//       const updatePwd = await Member.updatePassword({ password: pwd, id })
-//       if (updatePwd) {
-//         return HttpRes.send200(res)
-//       }
-//     }
-//     return HttpRes.send400(res)
-//    } catch(e) {
-//     return HttpRes.send500(res, String(e))
-//    }
-// })
 
 // login
 router.post('/login', async (req, res) => {
