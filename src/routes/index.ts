@@ -366,7 +366,7 @@ router.post('/sys/user/login', authMiddleware, async (req, res) => {
   }
 })
 
-//verify sys user
+// verify sys user
 router.get('/sys/user/verification', async (req, res) => {
   try {
     const authorization = req.headers['authorization'] || ''
