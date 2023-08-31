@@ -115,10 +115,14 @@ namespace sys_user {
         Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error sys_user id does not exist` })
         return false
       }
-      const old_password_match = await bcrypt.compare(old_password as string, user[0].password)
-      if (!old_password_match) {
-        Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error sys_user password does not match` })
-        return false
+      if (old_password === user[0].password) {
+
+      } else {
+        const old_password_match = await bcrypt.compare(old_password as string, user[0].password)
+        if (!old_password_match) {
+          Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error sys_user password does not match` })
+          return false
+        }
       }
       const pwd_encrypted = await bcrypt.hash(password as string, BCRYPT_SALT_ROUNDS)
       const { rows } = await client.query(sql, [id, name, email, phone, account, pwd_encrypted, hidden, genDateNowWithoutLocalOffset()])
