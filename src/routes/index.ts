@@ -308,7 +308,17 @@ router.post('/sys/user/login', authMiddleware, async (req, res) => {
       if (!user.hidden) {
         const match = await bcrypt.compare(password, user?.password)
         if (match) {
-          return HttpRes.send200(res, 'success', list)
+          const token = jwt.sign(
+            { ...user },
+            TOKEN_KEY,
+            {
+              expiresIn: "7d",
+            }
+          );
+          return HttpRes.send200(res, 'success', {
+            ...user,
+            token,
+          })
         }
       }
     }

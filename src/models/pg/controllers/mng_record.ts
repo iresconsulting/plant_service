@@ -98,7 +98,7 @@ namespace mng_record {
 
   export async function update_status(
     id: string,
-    status: boolean,
+    status: string,
   ): Promise<Array<any> | false> {
     const sql = `
       UPDATE mng_record
