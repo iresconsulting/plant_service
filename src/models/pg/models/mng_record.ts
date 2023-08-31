@@ -15,6 +15,7 @@ export async function createMngRecord(): Promise<void | false> {
       user_phone text DEFAULT '',
       user_email text DEFAULT '',
       status text DEFAULT '',
+      response text DEFAULT '',
       hidden boolean DEFAULT false,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP

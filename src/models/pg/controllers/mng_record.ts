@@ -5,16 +5,16 @@ import { genDateNowWithoutLocalOffset } from '../utils/helpers'
 
 namespace mng_record {
   export async function create(
-    { time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden }: Record<string, any>
+    { time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden }: Record<string, any>
   ): Promise<Array<any> | false> {
     const sql = `
-      INSERT INTO mng_record(time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      INSERT INTO mng_record(time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden])
+      const { rows } = await client.query(sql, [time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `create Error ${(e as string).toString()}` })
@@ -57,18 +57,18 @@ namespace mng_record {
   }
 
   export async function update(
-    { id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden }: Record<string, any>
+    { id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden }: Record<string, any>
 
   ): Promise<Array<any> | false> {
     const sql = `
       UPDATE mng_record
-      SET time = $2, location = $3, agriculture = $4, symptoms = $5, body_part = $6, raised_method = $7, user_name = $8, user_phone = $9, user_email = $10, hidden = $11, status = $12, last_updated = $13
+      SET time = $2, location = $3, agriculture = $4, symptoms = $5, body_part = $6, raised_method = $7, user_name = $8, user_phone = $9, user_email = $10, hidden = $11, status = $12, response = $13, last_updated = $14
       WHERE id = $1
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden, genDateNowWithoutLocalOffset()])
+      const { rows } = await client.query(sql, [id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden, genDateNowWithoutLocalOffset()])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error ${(e as string).toString()}` })
@@ -111,7 +111,27 @@ namespace mng_record {
       const { rows } = await client.query(sql, [id, status, genDateNowWithoutLocalOffset()])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
-      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `hide Error ${(e as string).toString()}` })
+      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update_status Error ${(e as string).toString()}` })
+      return false
+    }
+  }
+
+  export async function update_response(
+    id: string,
+    response: string,
+  ): Promise<Array<any> | false> {
+    const sql = `
+      UPDATE mng_record
+      SET response = $2, last_updated = $3
+      WHERE id = $1
+      RETURNING *
+    `
+
+    try {
+      const { rows } = await client.query(sql, [id, response, genDateNowWithoutLocalOffset()])
+      return querySuccessHandler(rows)
+    } catch (e: unknown) {
+      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update_response Error ${(e as string).toString()}` })
       return false
     }
   }

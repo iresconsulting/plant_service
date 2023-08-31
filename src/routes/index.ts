@@ -28,6 +28,7 @@ import { createSysUser } from '../models/pg/models/sys_user'
 import { createSysUnit } from '../models/pg/models/sys_unit'
 import { createMngExamination } from '../models/pg/models/mng_examination'
 import { createMngRecord } from '../models/pg/models/mng_record'
+import transporter from '../utils/email'
 
 const router: Router = express.Router()
 
@@ -347,13 +348,30 @@ router.get('/mng/record', authMiddleware, async (req, res) => {
   }
 })
 
+const SENDER_EMAIL = 'bettrader1003@gmail.com'
+
 // create, update mng record
 router.post('/mng/record', authMiddleware, async (req, res) => {
   try {
-    const { action_type, id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, hidden } = req.body
+    const { action_type, id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden } = req.body
     if (action_type === 'status' && id && status !== undefined) {
       const list = await mng_record.update_status(id, status)
-      return HttpRes.send200(res, 'success', list)
+      await mng_record.update_response(id, response)
+      if (list && list.length) {
+        const user = list[0]
+        if (user?.user_email) {
+          await transporter.sendMail({
+            from: SENDER_EMAIL,
+            sender: SENDER_EMAIL,
+            to: user?.user_email,
+            subject: `病蟲害診斷結果 - #${id}`,
+            text: '',
+            // cc: SENDER_EMAIL,
+          })
+        }
+        return HttpRes.send200(res, 'success', list)
+      }
+      throw new Error('update error')
     } else if (id) {
       const list = await mng_record.update({ id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, hidden })
       return HttpRes.send200(res, 'success', list)
