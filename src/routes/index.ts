@@ -365,7 +365,7 @@ router.post('/mng/record', authMiddleware, async (req, res) => {
             sender: SENDER_EMAIL,
             to: record?.user_email,
             subject: `病蟲害診斷結果 - #${id}`,
-            text: record?.response,
+            html: `<div style="font-size: 16px; color: #000000;line-height: 1.5;">${record?.response}</div>`,
             // cc: SENDER_EMAIL,
           })
         }
