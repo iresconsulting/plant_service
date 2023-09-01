@@ -26,7 +26,7 @@ import { createSysAgriculture, dropSysAgriculture } from '../models/pg/models/sy
 import { createSysDisease, dropSysDisease } from '../models/pg/models/sys_disease'
 import { createSysUser, dropSysUser } from '../models/pg/models/sys_user'
 import { createSysUnit, dropSysUnit } from '../models/pg/models/sys_unit'
-import { createMngExamination, dropMngExamination } from '../models/pg/models/mng_examination'
+// import { createMngExamination, dropMngExamination } from '../models/pg/models/mng_examination'
 import { createMngRecord, dropMngRecord } from '../models/pg/models/mng_record'
 import transporter from '../utils/email'
 
