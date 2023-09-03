@@ -7,11 +7,11 @@ import bcrypt from 'bcrypt'
 
 namespace sys_user {
   export async function create(
-    { name, email, phone, account, password, hidden }: Record<string, any>
+    { name, email, phone, account, password, hidden, type }: Record<string, any>
   ): Promise<Array<any> | false> {
     const sql = `
-      INSERT INTO sys_user(name, email, phone, account, password, hidden)
-      VALUES($1, $2, $3, $4, $5, $6)
+      INSERT INTO sys_user(name, email, phone, account, password, hidden, type)
+      VALUES($1, $2, $3, $4, $5, $6, $7)
       RETURNING *
     `
 
@@ -22,7 +22,7 @@ namespace sys_user {
         return false
       }
       const pwd_encrypted = await bcrypt.hash(password as string, BCRYPT_SALT_ROUNDS)
-      const { rows } = await client.query(sql, [name, email, phone, account, pwd_encrypted, hidden])
+      const { rows } = await client.query(sql, [name, email, phone, account, pwd_encrypted, hidden, type])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `create Error ${(e as string).toString()}` })
