@@ -29,6 +29,7 @@ import { createSysUnit, dropSysUnit } from '../models/pg/models/sys_unit'
 // import { createMngExamination, dropMngExamination } from '../models/pg/models/mng_examination'
 import { createMngRecord, dropMngRecord } from '../models/pg/models/mng_record'
 import transporter from '../utils/email'
+import Uploader from '../utils/multer'
 
 const router: Router = express.Router()
 
@@ -85,63 +86,21 @@ router.get('/db/init', async (req, res) => {
   }
 })
 
+router.post('/file/uploads', Uploader.instance.single('video'), async (req, res) => {
+  try {    
+    console.log(req?.file);
+    return HttpRes.send200(res, 'success', req?.file || false)
+  } catch(e) {
+    return HttpRes.send500(res, String(e))
+  }
+})
+
 router.get('/version', async (req: Request, res: Response) => {
   const _package = await fs.readFile(`${appRoot}/package.json`, 'utf-8')
   const jsonPackage = JSON.parse(_package)
   HttpRes.send200(res, null, { version: jsonPackage.version })
   return
 })
-
-// router.post('/otp/email/message', async (req, res) => {
-//   try {
-//     const { email } = req.body    
-//     const rows = await Member.getByUsername(email)
-//     if (!rows || rows.length === 0) {
-//       return HttpRes.send401(res)
-//     }
-//     const member = rows[0]
-//     // 6 digits number, ensure 1st digit !== 0
-//     const codeGen = Math.floor(100000 + Math.random() * 900000)
-//     const mailOptions: any = {
-//       from: 'keiko15678@gmail.com',
-//       to: email,
-//       subject: 'Playdium Support - 重置密碼',
-//       text: codeGen || 960938
-//     };
-//     transporter.sendMail(mailOptions as any, async function(error: any, info: any){
-//       if (error) {
-//         throw new Error('send email error' + String(error))
-//       } else {
-//         console.log('Email sent: ' + info.response);
-//         const updatePassword = await Member.updatePassword({ id: member?.id, password: codeGen })
-//         if (!updatePassword) {
-//           throw new Error('system error')
-//         }
-//         return HttpRes.send200(res, 'success', { email, response: JSON.stringify(info?.response) })
-//       }
-//     });
-//   } catch(e: any) {
-//     return HttpRes.send500(res, String(e))
-//   }
-// })
-
-// router.post('/otp/email', async (req, res) => {
-//   try {
-//     const { email, code } = req.body    
-//     const rows = await Member.getByUsername(email)
-//     if (!rows || rows.length === 0) {
-//       return HttpRes.send401(res)
-//     }
-//     const member = rows[0]    
-//     const verifyCode = await Member.getByUsernameAndPwd(email, code)
-//     if (!verifyCode) {
-//       return HttpRes.send400(res)
-//     }
-//     return HttpRes.send200(res, 'success')
-//   } catch {
-//     return HttpRes.send500(res)
-//   }
-// })
 
 // get sys agriculture
 router.get('/sys/agriculture', authMiddleware, async (req, res) => {
@@ -378,7 +337,7 @@ const SENDER_EMAIL = 'bettrader1003@gmail.com'
 // create, update mng record
 router.post('/mng/record', authMiddleware, async (req, res) => {
   try {
-    const { action_type, id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden } = req.body
+    const { action_type, id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden, video_url } = req.body
     if (action_type === 'status' && id && status !== undefined && response !== undefined) {
       await mng_record.update_status(id, status)
       const list = await mng_record.update_response(id, response)
@@ -397,6 +356,9 @@ router.post('/mng/record', authMiddleware, async (req, res) => {
         return HttpRes.send200(res, 'success', list)
       }
       throw new Error('update error')
+    } else if (action_type === 'video' && id) {
+      const list = await mng_record.update_video_url(id, video_url)
+      return HttpRes.send200(res, 'success', list)
     } else if (id) {
       const list = await mng_record.update({ id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, hidden })
       return HttpRes.send200(res, 'success', list)

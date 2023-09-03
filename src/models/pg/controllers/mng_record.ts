@@ -135,6 +135,26 @@ namespace mng_record {
       return false
     }
   }
+
+  export async function update_video_url(
+    id: string,
+    video_url: string,
+  ): Promise<Array<any> | false> {
+    const sql = `
+      UPDATE mng_record
+      SET video_url = $2, last_updated = $3
+      WHERE id = $1
+      RETURNING *
+    `
+
+    try {
+      const { rows } = await client.query(sql, [id, video_url, genDateNowWithoutLocalOffset()])
+      return querySuccessHandler(rows)
+    } catch (e: unknown) {
+      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update_video_url Error ${(e as string).toString()}` })
+      return false
+    }
+  }
 }
 
 export default mng_record
