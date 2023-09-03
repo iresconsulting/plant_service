@@ -10,6 +10,7 @@ export async function createSysUser(): Promise<void | false> {
       phone text DEFAULT '',
       account text DEFAULT '',
       password text DEFAULT '',
+      type text DEFAULT '',
       hidden boolean DEFAULT false,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
