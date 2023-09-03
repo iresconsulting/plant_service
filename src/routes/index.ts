@@ -103,7 +103,7 @@ router.get('/version', async (req: Request, res: Response) => {
 })
 
 // get sys agriculture
-router.get('/sys/agriculture', authMiddleware, async (req, res) => {
+router.get('/sys/agriculture', async (req, res) => {
   try {
     const { id } = req.query
     const _id = String(id)
@@ -141,7 +141,7 @@ router.post('/sys/agriculture', authMiddleware, async (req, res) => {
 })
 
 // get sys disease
-router.get('/sys/disease', authMiddleware, async (req, res) => {
+router.get('/sys/disease', async (req, res) => {
   try {
     const { id } = req.query
     const _id = String(id)
@@ -179,7 +179,7 @@ router.post('/sys/disease', authMiddleware, async (req, res) => {
 })
 
 // get sys unit
-router.get('/sys/unit', authMiddleware, async (req, res) => {
+router.get('/sys/unit', async (req, res) => {
   try {
     const { id } = req.query
     const _id = String(id)
@@ -311,7 +311,7 @@ router.get('/sys/user/verification', async (req, res) => {
 })
 
 // get mng record
-router.get('/mng/record', authMiddleware, async (req, res) => {
+router.get('/mng/record', async (req, res) => {
   try {
     const { id } = req.query
     const _id = String(id)
@@ -335,7 +335,7 @@ router.get('/mng/record', authMiddleware, async (req, res) => {
 const SENDER_EMAIL = 'bettrader1003@gmail.com'
 
 // create, update mng record
-router.post('/mng/record', authMiddleware, async (req, res) => {
+router.post('/mng/record', async (req, res) => {
   try {
     const { action_type, id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden, video_url } = req.body
     if (action_type === 'status' && id && status !== undefined && response !== undefined) {
