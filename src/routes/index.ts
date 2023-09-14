@@ -245,8 +245,11 @@ router.post('/sys/user', authMiddleware, async (req, res) => {
     if (action_type === 'hidden' && id && hidden !== undefined) {
       const list = await sys_user.hide(id, hidden)
       return HttpRes.send200(res, 'success', list)
-    } else if (id) {
-      const list = await sys_user.update({ id, name, email, phone, account, old_password, password, hidden })
+    } else if (action_type === 'update_password' && id && password !== undefined) {
+      const list = await sys_user.update_password(id, password)
+      return HttpRes.send200(res, 'success', list)
+    }  else if (id) {
+      const list = await sys_user.update({ id, name, email, phone, account, hidden })
       return HttpRes.send200(res, 'success', list)
     } else {
       const list = await sys_user.create({ name, email, phone, account, password, hidden, type })

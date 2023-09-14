@@ -99,33 +99,33 @@ namespace sys_user {
   }
 
   export async function update(
-    { id, name, email, phone, account, old_password, password, hidden }: Record<string, any>
+    { id, name, email, phone, account, hidden }: Record<string, any>
 
   ): Promise<Array<any> | false> {
     const sql = `
       UPDATE sys_user
-      SET name = $2, email = $3, phone = $4, account = $5, password = $6, hidden = $7, last_updated = $8
+      SET name = $2, email = $3, phone = $4, account = $5, hidden = $6, last_updated = $7
       WHERE id = $1
       RETURNING *
     `
 
     try {
-      const user = await getById(id)
-      if (!user || user.length === 0) {
-        Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error sys_user id does not exist` })
-        return false
-      }
-      if (old_password === user[0].password) {
+      // const user = await getById(id)
+      // if (!user || user.length === 0) {
+      //   Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error sys_user id does not exist` })
+      //   return false
+      // }
+      // if (old_password === user[0].password) {
 
-      } else {
-        const old_password_match = await bcrypt.compare(old_password as string, user[0].password)
-        if (!old_password_match) {
-          Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error sys_user password does not match` })
-          return false
-        }
-      }
-      const pwd_encrypted = await bcrypt.hash(password as string, BCRYPT_SALT_ROUNDS)
-      const { rows } = await client.query(sql, [id, name, email, phone, account, pwd_encrypted, hidden, genDateNowWithoutLocalOffset()])
+      // } else {
+      //   const old_password_match = await bcrypt.compare(old_password as string, user[0].password)
+      //   if (!old_password_match) {
+      //     Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error sys_user password does not match` })
+      //     return false
+      //   }
+      // }
+      // const pwd_encrypted = await bcrypt.hash(password as string, BCRYPT_SALT_ROUNDS)
+      const { rows } = await client.query(sql, [id, name, email, phone, account, hidden, genDateNowWithoutLocalOffset()])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error ${(e as string).toString()}` })
@@ -146,6 +146,28 @@ namespace sys_user {
 
     try {
       const { rows } = await client.query(sql, [id, hidden, genDateNowWithoutLocalOffset()])
+      return querySuccessHandler(rows)
+    } catch (e: unknown) {
+      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `hide Error ${(e as string).toString()}` })
+      return false
+    }
+  }
+
+  export async function update_password(
+    id: string,
+    // old_password: string,
+    password: string,
+  ): Promise<Array<any> | false> {
+    const sql = `
+      UPDATE sys_user
+      SET password = $2, last_updated = $3
+      WHERE id = $1
+      RETURNING *
+    `
+
+    try {
+      const pwd_encrypted = await bcrypt.hash(password as string, BCRYPT_SALT_ROUNDS)
+      const { rows } = await client.query(sql, [id, pwd_encrypted, genDateNowWithoutLocalOffset()])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `hide Error ${(e as string).toString()}` })
