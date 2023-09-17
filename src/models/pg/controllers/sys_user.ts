@@ -110,21 +110,6 @@ namespace sys_user {
     `
 
     try {
-      // const user = await getById(id)
-      // if (!user || user.length === 0) {
-      //   Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error sys_user id does not exist` })
-      //   return false
-      // }
-      // if (old_password === user[0].password) {
-
-      // } else {
-      //   const old_password_match = await bcrypt.compare(old_password as string, user[0].password)
-      //   if (!old_password_match) {
-      //     Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error sys_user password does not match` })
-      //     return false
-      //   }
-      // }
-      // const pwd_encrypted = await bcrypt.hash(password as string, BCRYPT_SALT_ROUNDS)
       const { rows } = await client.query(sql, [id, name, email, phone, account, hidden, genDateNowWithoutLocalOffset()])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
@@ -170,7 +155,7 @@ namespace sys_user {
       const { rows } = await client.query(sql, [id, pwd_encrypted, genDateNowWithoutLocalOffset()])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
-      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `hide Error ${(e as string).toString()}` })
+      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update_password Error ${(e as string).toString()}` })
       return false
     }
   }
