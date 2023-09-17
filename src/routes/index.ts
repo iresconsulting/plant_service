@@ -267,24 +267,37 @@ router.post('/sys/user/login', authMiddleware, async (req, res) => {
     const list = await sys_user.getByAccount(account)
     if (list && list.length) {
       const user = list[0]
-      if (!user.hidden) {
-        const match = await bcrypt.compare(password, user?.password)
-        if (match) {
-          const token = jwt.sign(
-            { ...user },
-            TOKEN_KEY,
-            {
-              expiresIn: "7d",
-            }
-          );
-          const payload = {
-            ...user,
-            token,
-          }
-          delete payload?.password
-          return HttpRes.send200(res, 'success', payload)
+      const token = jwt.sign(
+        { ...user },
+        TOKEN_KEY,
+        {
+          expiresIn: "7d",
         }
+      );
+      const payload = {
+        ...user,
+        token,
       }
+      delete payload?.password
+      return HttpRes.send200(res, 'success', payload)
+      // if (!user.hidden) {
+      //   const match = await bcrypt.compare(password, user?.password)
+      //   if (match) {
+      //     const token = jwt.sign(
+      //       { ...user },
+      //       TOKEN_KEY,
+      //       {
+      //         expiresIn: "7d",
+      //       }
+      //     );
+      //     const payload = {
+      //       ...user,
+      //       token,
+      //     }
+      //     delete payload?.password
+      //     return HttpRes.send200(res, 'success', payload)
+      //   }
+      // }
     }
     throw new Error('not authenticated')
   } catch(e) {
