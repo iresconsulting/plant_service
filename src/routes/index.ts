@@ -360,14 +360,20 @@ router.post('/mng/record', async (req, res) => {
       if (list && list.length) {
         const record = list[0]
         if (record?.user_email) {
-          await transporter.sendMail({
-            from: SENDER_EMAIL,
-            sender: SENDER_EMAIL,
-            to: record?.user_email,
-            subject: `病蟲害診斷結果 - #${id}`,
-            html: `<div style="font-size: 16px; color: #000000;line-height: 1.5;">${record?.response}</div>`,
-            // cc: SENDER_EMAIL,
-          })
+          try {
+            await transporter.sendMail({
+              from: SENDER_EMAIL,
+              sender: SENDER_EMAIL,
+              to: record?.user_email,
+              subject: `病蟲害診斷結果 - #${id}`,
+              html: `<div style="font-size: 16px; color: #000000;line-height: 1.5;">${record?.response}</div>`,
+              // cc: SENDER_EMAIL,
+            })
+          } catch {
+
+          } finally {
+            
+          }
         }
         return HttpRes.send200(res, 'success', list)
       }
