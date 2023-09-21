@@ -707,83 +707,83 @@ router.post('/login', async (req, res) => {
    }
 })
 
-router.post('/login/firebase', async (req, res) => {
-  try {
-    const authorization = req.headers['authorization'] || ''
-    const split = authorization?.split('Bearer ')
-    if (split?.length === 2) {
-      const firebaseToken = split[1]
-      const { user_id: userId, email } = await Firebase.authenticateToken(firebaseToken)
-      const existUser = await Member.getBySystemUsername(email)
-      if (!existUser || existUser.length === 0) {
-        // insert new user if not exist
-        const insert = await Member.create({
-          employee_id: userId,
-          basic_name: email,
-          basic_govid: '',
-          system_username: email,
-          system_password: email,
-        })
-        if (insert && insert.length > 0) {
-          const user = insert[0]
-          const token = jwt.sign(
-            { id: user.id, name: user.name, no: user.no, roles: pgArrToArr(user.roles) },
-            TOKEN_KEY,
-            {
-              expiresIn: "7d",
-            }
-          );
-          return HttpRes.send200(res, 'success', { ...user, token })
-        }
-        return HttpRes.send400(res)
-      }
-      const user = existUser[0]
-      const token = jwt.sign(
-        { id: user.id, name: user.name, no: user.no, roles: pgArrToArr(user.roles) },
-        TOKEN_KEY,
-        {
-          expiresIn: "7d",
-        }
-      );
-      return HttpRes.send200(res, 'success', { ...user, token })
-    }
+// router.post('/login/firebase', async (req, res) => {
+//   try {
+//     const authorization = req.headers['authorization'] || ''
+//     const split = authorization?.split('Bearer ')
+//     if (split?.length === 2) {
+//       const firebaseToken = split[1]
+//       const { user_id: userId, email } = await Firebase.authenticateToken(firebaseToken)
+//       const existUser = await Member.getBySystemUsername(email)
+//       if (!existUser || existUser.length === 0) {
+//         // insert new user if not exist
+//         const insert = await Member.create({
+//           employee_id: userId,
+//           basic_name: email,
+//           basic_govid: '',
+//           system_username: email,
+//           system_password: email,
+//         })
+//         if (insert && insert.length > 0) {
+//           const user = insert[0]
+//           const token = jwt.sign(
+//             { id: user.id, name: user.name, no: user.no, roles: pgArrToArr(user.roles) },
+//             TOKEN_KEY,
+//             {
+//               expiresIn: "7d",
+//             }
+//           );
+//           return HttpRes.send200(res, 'success', { ...user, token })
+//         }
+//         return HttpRes.send400(res)
+//       }
+//       const user = existUser[0]
+//       const token = jwt.sign(
+//         { id: user.id, name: user.name, no: user.no, roles: pgArrToArr(user.roles) },
+//         TOKEN_KEY,
+//         {
+//           expiresIn: "7d",
+//         }
+//       );
+//       return HttpRes.send200(res, 'success', { ...user, token })
+//     }
 
-  } catch (e: unknown) {
-    HttpRes.send500(res)
-    return
-  }
-})
+//   } catch (e: unknown) {
+//     HttpRes.send500(res)
+//     return
+//   }
+// })
 
-router.post('/register', async (req: Request, res: Response) => {
-  const { system_username, basic_name, basic_govid, system_password } = req.body
-  try {
-    const findUserResult = await Member.getBySystemUsername(system_username)
-    if (findUserResult === false || findUserResult.length === 0) {
-      const employee_id = moment().format('YYYYMMDDHHmmss') + system_username
-      const insert = await Member.create({
-        employee_id,
-        basic_name,
-        basic_govid,
-        system_username: system_username,
-        system_password,
-      })
-      if (insert && insert.length > 0) {
-        const user = insert[0]
-        const token = jwt.sign(
-          { id: user.id, name: user.name, no: user.no, roles: pgArrToArr(user.roles) },
-          TOKEN_KEY,
-          {
-            expiresIn: "7d",
-          }
-        );
-        return HttpRes.send200(res, 'success', { ...user, token })
-      }
-    }
-    throw new Error('write user data error')
-  } catch (e) {
-    return HttpRes.send500(res, String(e))
-  }
-})
+// router.post('/register', async (req: Request, res: Response) => {
+//   const { system_username, basic_name, basic_govid, system_password } = req.body
+//   try {
+//     const findUserResult = await Member.getBySystemUsername(system_username)
+//     if (findUserResult === false || findUserResult.length === 0) {
+//       const employee_id = moment().format('YYYYMMDDHHmmss') + system_username
+//       const insert = await Member.create({
+//         employee_id,
+//         basic_name,
+//         basic_govid,
+//         system_username: system_username,
+//         system_password,
+//       })
+//       if (insert && insert.length > 0) {
+//         const user = insert[0]
+//         const token = jwt.sign(
+//           { id: user.id, name: user.name, no: user.no, roles: pgArrToArr(user.roles) },
+//           TOKEN_KEY,
+//           {
+//             expiresIn: "7d",
+//           }
+//         );
+//         return HttpRes.send200(res, 'success', { ...user, token })
+//       }
+//     }
+//     throw new Error('write user data error')
+//   } catch (e) {
+//     return HttpRes.send500(res, String(e))
+//   }
+// })
 
 router.get('/verification', async (req, res) => {
   try {
