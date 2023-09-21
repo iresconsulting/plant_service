@@ -66,6 +66,7 @@ router.get('/db/init', async (req, res) => {
       createMngExamination(),
       createMngRecord(),
     ])
+    console.log('create_res', create_res);
     const config = await system_config.create('root', '1234qwer', false)
     // const member = await Member.create({
     //   employee_id: 'user',
