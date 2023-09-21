@@ -69,16 +69,16 @@ router.get('/db/init', async (req, res) => {
       createMngRecord(),
     ])
     const config = await system_config.create('root', '1234qwer', false)
-    const member = await Member.create({
-      employee_id: 'user',
-      basic_name: 'user',
-      basic_govid: 'A123456789',
-      basic_birthday: '1970-01-01',
-      system_username: 'user',
-      system_password: '1234qwer',
-    })
+    // const member = await Member.create({
+    //   employee_id: 'user',
+    //   basic_name: 'user',
+    //   basic_govid: 'A123456789',
+    //   basic_birthday: '1970-01-01',
+    //   system_username: 'user',
+    //   system_password: '1234qwer',
+    // })
     console.log('config', config);
-    console.log('member', member);
+    // console.log('member', member);
     console.log('---tx end---');
     return HttpRes.send200(res)
   } catch(e) {
