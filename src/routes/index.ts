@@ -30,6 +30,7 @@ import { createSysUnit, dropSysUnit } from '../models/pg/models/sys_unit'
 import { createMngRecord, dropMngRecord } from '../models/pg/models/mng_record'
 import transporter from '../utils/email'
 import Uploader from '../utils/multer'
+import { createMngExamination, dropMngExamination } from '../models/pg/models/mng_examination'
 
 const router: Router = express.Router()
 
@@ -52,7 +53,7 @@ router.get('/db/init', async (req, res) => {
     await dropSysDisease()
     await dropSysUnit()
     await dropSysUser()
-    // await dropMngExamination()
+    await dropMngExamination()
     await dropMngRecord()
     // create
     const create_res = await Promise.all([
@@ -64,7 +65,7 @@ router.get('/db/init', async (req, res) => {
       createSysDisease(),
       createSysUnit(),
       createSysUser(),
-      // createMngExamination(),
+      createMngExamination(),
       createMngRecord(),
     ])
     const config = await system_config.create('root', '1234qwer', false)
