@@ -87,7 +87,7 @@ router.get('/db/init', async (req, res) => {
 })
 
 router.post('/file/uploads', Uploader.instance.single('video'), async (req, res) => {
-  try {    
+  try {
     console.log(req?.file);
     return HttpRes.send200(res, 'success', req?.file || false)
   } catch(e) {
