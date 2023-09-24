@@ -116,6 +116,26 @@ namespace mng_record {
     }
   }
 
+  export async function update_expert_name(
+    id: string,
+    expert_name: string,
+  ): Promise<Array<any> | false> {
+    const sql = `
+      UPDATE mng_record
+      SET expert_name = $2, last_updated = $3
+      WHERE id = $1
+      RETURNING *
+    `
+
+    try {
+      const { rows } = await client.query(sql, [id, expert_name, genDateNowWithoutLocalOffset()])
+      return querySuccessHandler(rows)
+    } catch (e: unknown) {
+      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update_expert_name Error ${(e as string).toString()}` })
+      return false
+    }
+  }
+
   export async function update_response(
     id: string,
     response: string,

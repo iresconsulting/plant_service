@@ -353,9 +353,12 @@ const SENDER_EMAIL = 'bettrader1003@gmail.com'
 // create, update mng record
 router.post('/mng/record', async (req, res) => {
   try {
-    const { action_type, id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden, video_url, expert_name } = req.body
+    const { action_type, id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden, video_url, expert_name = '' } = req.body
     if (action_type === 'status' && id && status !== undefined && response !== undefined) {
-      await mng_record.update_status(id, status)
+      await Promise.all([
+        mng_record.update_expert_name(id, expert_name),
+        mng_record.update_status(id, status)
+      ])
       const list = await mng_record.update_response(id, response)
       if (list && list.length) {
         const record = list[0]
