@@ -17,6 +17,7 @@ export async function createMngRecord(): Promise<void | false> {
       status text DEFAULT '',
       response text DEFAULT '',
       video_url text DEFAULT '',
+      expert_name DEFAULT '',
       hidden boolean DEFAULT false,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
