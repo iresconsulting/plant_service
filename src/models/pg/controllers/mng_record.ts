@@ -57,18 +57,18 @@ namespace mng_record {
   }
 
   export async function update(
-    { id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden }: Record<string, any>
+    { id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden, expert_name }: Record<string, any>
 
   ): Promise<Array<any> | false> {
     const sql = `
       UPDATE mng_record
-      SET time = $2, location = $3, agriculture = $4, symptoms = $5, body_part = $6, raised_method = $7, user_name = $8, user_phone = $9, user_email = $10, hidden = $11, status = $12, response = $13, last_updated = $14
+      SET time = $2, location = $3, agriculture = $4, symptoms = $5, body_part = $6, raised_method = $7, user_name = $8, user_phone = $9, user_email = $10, hidden = $11, status = $12, response = $13, last_updated = $14, expert_name = $15
       WHERE id = $1
       RETURNING *
     `
 
     try {
-      const { rows } = await client.query(sql, [id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden, genDateNowWithoutLocalOffset()])
+      const { rows } = await client.query(sql, [id, time, location, agriculture, symptoms, body_part, raised_method, user_name, user_phone, user_email, status, response, hidden, genDateNowWithoutLocalOffset(), expert_name])
       return querySuccessHandler(rows)
     } catch (e: unknown) {
       Logger.generateTimeLog({ label: Logger.Labels.PG, message: `update Error ${(e as string).toString()}` })
