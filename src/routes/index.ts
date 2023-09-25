@@ -92,7 +92,7 @@ router.post('/file/uploads', Uploader.instance.single('video'), async (req, res)
     const { convert, video_url } = req.body
     if (Boolean(convert) === true && video_url) {
       const name = `ffmpeg_${moment().format('YYYYMMDDHHmmss')}`
-      convertVideo(video_url, name, HttpRes.send200, [res, 'success', { video_url: `${name}.mp4` }])
+      convertVideo(video_url, name, HttpRes.send200, [res, 'success', { video_url: `${name}.mp4`, original_video_url: video_url }])
       return
     } else {
       console.log(req?.file);
