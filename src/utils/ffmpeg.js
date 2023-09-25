@@ -25,6 +25,7 @@ export const convertVideo = (path, output_name, cb, cb_params) => {
     console.log(command);
   } catch (e) {
     console.log(e);
-    cb([...cb_params], e)
+    // cb([...cb_params], e)
+    throw new Error(e)
   }
 }
