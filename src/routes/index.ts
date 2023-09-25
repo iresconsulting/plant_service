@@ -95,7 +95,6 @@ router.post('/file/uploads', Uploader.instance.single('video'), async (req, res)
       convertVideo(video_url, name, HttpRes.send200, [res, 'success', { video_url: `${name}.mp4`, original_video_url: video_url }])
       return
     } else {
-      console.log(req?.file);
       return HttpRes.send200(res, 'success', req?.file || false)
     }
   } catch(e) {
