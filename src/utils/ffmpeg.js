@@ -1,4 +1,4 @@
-import ffmpeg from 'fluent-ffmpeg'
+import * as ffmpeg from 'fluent-ffmpeg'
 
 export const convertVideo = (path, output_name, cb, cb_params) => {
   try {
