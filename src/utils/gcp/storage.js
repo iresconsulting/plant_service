@@ -1,7 +1,6 @@
 import { Storage } from '@google-cloud/storage';
 import * as gcp from '@pulumi/gcp'
 import axios from 'axios';
-// import pulumi from '@pulumi/pulumi'
 
 export async function createBucket(bucketname) {
   const bucket = new gcp.storage.Bucket(bucketname, {
