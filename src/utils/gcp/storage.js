@@ -3,8 +3,8 @@ import * as gcp from '@pulumi/gcp'
 import axios from 'axios';
 // import pulumi from '@pulumi/pulumi'
 
-export async function createNewBucket() {
-  const bucket = new gcp.storage.Bucket('name', {
+export async function createBucket(bucketname) {
+  const bucket = new gcp.storage.Bucket(bucketname, {
     cors: [
       {
         methods: ['POST'],
@@ -18,7 +18,7 @@ export async function createNewBucket() {
   return bucket
 }
 
-export default async function uploadToStorage(req, res) {
+export default async function postBucket(file_path) {
   const storage = new Storage({
     projectId: process.env.PROJECT_ID || '1225g-prod',
     credentials: {
@@ -36,46 +36,23 @@ export default async function uploadToStorage(req, res) {
     },
   });
 
-  const bucket = storage.bucket(process.env.BUCKET_NAME || '1225g');
-  const file = bucket.file(req.query.file);
-  const options = {
-    expires: Date.now() + 1 * 60 * 30000, //  1 minute,
-    fields: { 'x-goog-meta-test': 'data' },
-  };
-
-  const [response] = await file.generateSignedPostPolicyV4(options);
-  return response
+  const bucketname = process.env.BUCKET_NAME || '1225g'
+  const bucket = storage.bucket(bucketname);
+  const res = await bucket.upload(file_path)
+  if (res.length > 0) {
+    await storage.bucket(bucketname).file(filename).makePublic()
+    const url = res[0].metadata.mediaLink
+    return url
+  }
+  return ''
 }
 
-export async function upload(file) {
-  // const file = e.target.files[0];
-  const filename = encodeURIComponent(file.name);
-  const res = await uploadToStorage({
-    query: {
-      file: filename,
-    }
-  })
-  console.log(res.data);
-  if (res.data) {
-    const url = res.data?.url
-    const fields = res.data?.fields
-    const formData = new FormData();
-    Object
-      .entries({ ...fields, file })
-      .forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-    const upload = await axios.post(url, formData);
-    const status = upload.data?.ok
-    if (status) {
-      console.log('[gcp_storage] Uploaded successfully!');
-      return true
-    } else {
-      console.error('[gcp_storage] Upload failed.');
-      return false
-    }
-  } else {
-    console.error('[gcp_storage] Connection failed.');
-    return false
+export async function getFile(url) {
+  const res = await axios.get(url)
+  const data = res.data
+  if (data) {
+    return data
   }
+  console.error('[gcp_storage] Connection failed.');
+  return false
 }
