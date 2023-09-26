@@ -47,11 +47,15 @@ export default async function postBucket(file_path) {
 }
 
 export async function getFile(url) {
-  const res = await axios.get(url)
-  const data = res.data
-  if (data) {
-    return data
+  try {
+    const res = await axios.get(url)
+    const data = res.data
+    if (data) {
+      return data
+    }
+    console.error(`[gcp_storage] ${res.statusText}`);
+    return false
+  } catch(e) {
+    console.error(`[gcp_storage] ${e}`);
   }
-  console.error('[gcp_storage] Connection failed.');
-  return false
 }
