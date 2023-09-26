@@ -60,9 +60,11 @@ export async function upload(file) {
     const url = res.data?.url
     const fields = res.data?.fields
     const formData = new FormData();
-    Object.entries({ ...fields, file }).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+    Object
+      .entries({ ...fields, file })
+      .forEach(([key, value]) => {
+        formData.append(key, value);
+      });
     const upload = await axios.post(url, formData);
     const status = upload.data?.ok
     if (status) {
@@ -76,5 +78,4 @@ export async function upload(file) {
     console.error('[gcp_storage] Connection failed.');
     return false
   }
-  // const res = await fetch(`/api/upload-url?file=${filename}`);
 }
