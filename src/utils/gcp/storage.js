@@ -39,7 +39,7 @@ export default async function postBucket(file_path) {
   const bucket = storage.bucket(bucketname);
   const res = await bucket.upload(file_path)
   if (res.length > 0) {
-    await storage.bucket(bucketname).file(filename).makePublic()
+    await storage.bucket(bucketname).file(file_path).makePublic()
     const url = res[0]?.metadata?.mediaLink || ''
     return url
   }
