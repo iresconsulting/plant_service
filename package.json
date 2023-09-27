@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "private": "true",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.18"
+  },
   "scripts": {
     "start": "babel-node ./dist/app.bundle.js",
     "dev": "npm-run-all --parallel build:dev watch",
     "watch": "nodemon --exec babel-node ./dist/app.bundle.js",
     "build:dev": "webpack-cli --env config=dev --config webpack.config.cjs -w --progress --color",
-    "build": "webpack --env config=prd --config webpack.config.cjs",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider webpack --env config=prd --config webpack.config.cjs",
     "db": "cross-env PG_URI= babel-node ./dist/db.bundle.js",
     "commit": "git add . && git commit -m 'feat: Update' && git push"
   },
