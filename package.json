@@ -7,7 +7,7 @@
     "node": ">=18.18"
   },
   "scripts": {
-    "start": "babel-node ./dist/app.bundle.js",
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider babel-node ./dist/app.bundle.js",
     "dev": "npm-run-all --parallel build:dev watch",
     "watch": "nodemon --exec babel-node ./dist/app.bundle.js",
     "build:dev": "webpack-cli --env config=dev --config webpack.config.cjs -w --progress --color",
