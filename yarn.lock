@@ -901,6 +901,18 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.3.tgz#90420f9f9c6d3987f176a19a7d8e764271a2f55d"
   integrity sha512-Fxt+AfXgjMoin2maPIYzFZnQjAXjAL0PHscM5pRTtatFqB+vZxAM9tLp2Optnuw3QOQC40jTNeGYFOMvyf7v9g==
 
+"@ffmpeg/ffmpeg@^0.12.6":
+  version "0.12.6"
+  resolved "https://registry.yarnpkg.com/@ffmpeg/ffmpeg/-/ffmpeg-0.12.6.tgz#34dd5959b9446837240a32acb6979474e8935500"
+  integrity sha512-4CuXDaqrCga5qBwVtiDDR45y65OGPYZd7VzwGCGz3QLdrQH7xaLYEjU19XL4DTCL0WnTSH8752b8Atyb1SiiLw==
+  dependencies:
+    "@ffmpeg/types" "^0.12.0"
+
+"@ffmpeg/types@^0.12.0":
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/@ffmpeg/types/-/types-0.12.1.tgz#659e4eb51f3e01e145a6fe99e5b8e12a373aa59a"
+  integrity sha512-n+v9yvxaBPi1Z/1wy2PvqMHvED3qV7LXBWnBmMBAAzybbs4KWp6wrhCTMxITORMHXpPZEEupsBH1iEoLuzYSUw==
+
 "@firebase/app-types@0.6.3":
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/@firebase/app-types/-/app-types-0.6.3.tgz#3f10514786aad846d74cd63cb693556309918f4b"

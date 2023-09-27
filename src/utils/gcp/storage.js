@@ -17,7 +17,7 @@ export async function createBucket(bucketname) {
   return bucket
 }
 
-export default async function postBucket(file_path) {
+export default async function postFileBucket(file_path) {
   const storage = new Storage({
     projectId: process.env.PROJECT_ID || '1225g-prod',
     credentials: {
@@ -46,7 +46,7 @@ export default async function postBucket(file_path) {
   return ''
 }
 
-export async function getFile(url) {
+export async function getFileBucket(url) {
   try {
     const res = await axios.get(url)
     const data = res.data
