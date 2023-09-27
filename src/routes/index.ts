@@ -93,10 +93,19 @@ router.post('/file/uploads', Uploader.instance.single('video'), async (req, res)
     const { convert, video_url } = req.body
     if (Boolean(convert) === true && video_url) {
       const name = `ffmpeg_${moment().format('YYYYMMDDHHmmss')}`
+      const local_url = `../uploads/${name}.mp4`
       // convertVideo(video_url, name, HttpRes.send200, [res, 'success', { video_url: `${name}.mp4`, original_video_url: video_url }])
-      // return
-      const bucket_url = await postFileBucket(`../uploads/${name}.mp4`)
-      return HttpRes.send200(res, 'success',  { video_url: bucket_url, original_video_url: video_url })
+      convertVideo(video_url, name, async (err: string) => {
+        if (err) {
+          return HttpRes.send500(res, err)
+        }
+        const bucket_url = await postFileBucket(`../uploads/${name}.mp4`)
+        return HttpRes.send200(res, 'success', {
+          video_url: bucket_url,
+          original_video_url: video_url,
+          local_url
+        })
+      })
     } else {
       return HttpRes.send200(res, 'success', req?.file || false)
     }
