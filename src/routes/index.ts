@@ -30,6 +30,7 @@ import sys_unit from '../models/pg/controllers/sys_unit'
 import sys_user from '../models/pg/controllers/sys_user'
 import mng_record from '../models/pg/controllers/mng_record'
 import { convertVideo } from '../utils/ffmpeg'
+import postFileBucket from '../utils/gcp/storage'
 
 const router: Router = express.Router()
 
@@ -92,8 +93,10 @@ router.post('/file/uploads', Uploader.instance.single('video'), async (req, res)
     const { convert, video_url } = req.body
     if (Boolean(convert) === true && video_url) {
       const name = `ffmpeg_${moment().format('YYYYMMDDHHmmss')}`
-      convertVideo(video_url, name, HttpRes.send200, [res, 'success', { video_url: `${name}.mp4`, original_video_url: video_url }])
-      return
+      // convertVideo(video_url, name, HttpRes.send200, [res, 'success', { video_url: `${name}.mp4`, original_video_url: video_url }])
+      // return
+      const bucket_url = await postFileBucket(`../uploads/${name}.mp4`)
+      return HttpRes.send200(res, 'success',  { video_url: bucket_url, original_video_url: video_url })
     } else {
       return HttpRes.send200(res, 'success', req?.file || false)
     }
