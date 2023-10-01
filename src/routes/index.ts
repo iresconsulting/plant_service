@@ -74,7 +74,11 @@ router.get('/db/init', async (req, res) => {
     const get_config = await system_config.getAll()
     if (!get_config || get_config?.length === 0) {
       const create_config = await system_config.create('root', '1234qwer', false)
-      console.log('config', create_config);
+      if (create_config && create_config?.length > 0) {
+        console.log('config', create_config);
+      } else {
+        throw new Error('create config failed')
+      }
     } else {
       console.log('config', get_config);
     }
