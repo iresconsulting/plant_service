@@ -71,7 +71,7 @@ router.get('/db/init', async (req, res) => {
       createMngExamination(),
       createMngRecord(),
     ])
-    const get_config = await system_config.getAll()
+    const get_config = await system_config.getById('1')
     if (!get_config || get_config?.length === 0) {
       const create_config = await system_config.create('root', '1234qwer', false)
       if (create_config && create_config?.length > 0) {
