@@ -248,7 +248,8 @@ body: {
 共用影片上傳
 POST /file/uploads
 headers: {
-  authorization: Bearer
+  authorization: Bearer;
+  content-type: 'application/json' || 'multipart-formdata-*'
 }
 body: {
   convert: boolean; //是否執行轉檔
