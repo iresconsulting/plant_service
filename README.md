@@ -110,7 +110,7 @@ headers: {
 }
 body: {
   id: string;
-  name: string;
+  name: string; //名稱
   species: string; //科目
   hidden: boolean; //是否顯示於列表
 }
@@ -139,10 +139,10 @@ headers: {
 }
 body: {
   id: string;
-  name: string;
-  location: string;
+  name: string; //名稱
+  location: string; //地點
   contact: string; //聯絡人
-  phone: string;
+  phone: string; //聯絡電話
   hidden: boolean; //是否顯示於列表
 }
 ```
@@ -205,6 +205,12 @@ POST /sys/user/login
 body: {
   account: string; //帳號 (專家: Email, 諮詢單位: Email)
   paassword: string; //密碼
+}
+response: {
+  account: string; //帳號
+  email: string;
+  phone: string; //聯絡電話
+  token: string; //系統驗證金鑰
 }
 ```
 ```
