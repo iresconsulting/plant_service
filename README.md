@@ -208,7 +208,7 @@ body: {
 }
 ```
 ```
-帳戶資訊驗證
+系統帳戶驗證
 GET /sys/user/login
 headers: {
   authorization: Bearer
