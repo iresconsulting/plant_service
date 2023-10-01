@@ -262,6 +262,10 @@ GET /db/init
 requirements:
   1. system.env.ALLOW_DB_INIT: 'true'
 query: {
-  drop: boolean; //清除所有資料與重新建構資料表
+  drop: boolean; //1. 清除所有資料, 2. 重新建構資料庫, 3. 重新建構基礎數據 (Ex. 系統管理員登入帳號及密碼)
+}
+response: {
+  root_usr: string; //系統管理員登入帳號
+  root_pwd: string; //系統管理員登入密碼
 }
 ```
