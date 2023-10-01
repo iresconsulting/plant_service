@@ -43,7 +43,7 @@ router.get('/db/init', async (req, res) => {
     if (process.env.ALLOW_DB_INIT !== 'true') {
       return HttpRes.send401(res)
     }
-    console.log('---tx start---');
+    console.log('[db] ---tx start---');
     // drop
     await dropMemberTable()
     await dropMemberAdmimTable()
@@ -75,7 +75,7 @@ router.get('/db/init', async (req, res) => {
     } else {
       console.log('config', get_config);
     }
-    console.log('---tx end---');
+    console.log('[db] ---tx end---');
     return HttpRes.send200(res)
   } catch(e) {
     console.log('[api] /db/init Error', String(e));
