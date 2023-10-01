@@ -252,8 +252,8 @@ headers: {
 }
 body: {
   convert: boolean; //是否執行轉檔
-  video_url: string; //網址上傳
-  video: form_data; //客戶端本地影片上傳
+  video_url: string; //網址上傳, 支援格式: https://*
+  video: form_data; //客戶端本地影片上傳, 支援格式: video/*
 }
 ```
 ```
