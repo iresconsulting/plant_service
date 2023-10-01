@@ -200,18 +200,6 @@ response: {
 }
 ```
 ```
-共用影片上傳
-POST /file/uploads
-headers: {
-  authorization: Bearer
-}
-body: {
-  convert: boolean; //是否執行轉檔
-  video_url: string; //網址上傳
-  video: form_data; //客戶端本地影片上傳
-}
-```
-```
 系統登入
 POST /sys/user/login
 body: {
@@ -254,6 +242,18 @@ POST /admin/login
 body: {
   usr: string; //系統管理員登入帳號
   pwd: string; //系統管理員登入密碼
+}
+```
+```
+共用影片上傳
+POST /file/uploads
+headers: {
+  authorization: Bearer
+}
+body: {
+  convert: boolean; //是否執行轉檔
+  video_url: string; //網址上傳
+  video: form_data; //客戶端本地影片上傳
 }
 ```
 ```
