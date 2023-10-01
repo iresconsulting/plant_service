@@ -212,11 +212,11 @@ response: {
   email: string;
   phone: string; //聯絡電話
   token: string; //系統驗證金鑰
-  hidden: boolean; //登入權限允許/註銷
-}
+  hidden: boolean; //登入權限允許/
+  type: 'user' || 'guest' //帳號類型, user=專家, guest=諮詢單位
 ```
 ```
-系統帳戶驗證
+系統專家, 諮詢單位帳戶與系統管理員帳戶驗證
 GET /sys/user/login
 headers: {
   authorization: Bearer
@@ -228,6 +228,7 @@ response: {
   phone: string; //聯絡電話
   token: string; //系統驗證金鑰
   hidden: boolean; //登入權限允許/註銷
+  type: 'user' || 'guest' || 'root' //帳號類型, user=專家, guest=諮詢單位, root=系統管理員
 }
 ```
 ```
