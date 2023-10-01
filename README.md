@@ -12,7 +12,7 @@ $ yarn start
 
 ### API 接口
 ```
-Health check
+伺服器心跳檢查
 GET /health
 ```
 ```
