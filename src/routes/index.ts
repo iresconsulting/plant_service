@@ -56,7 +56,7 @@ router.get('/db/init', async (req, res) => {
     await dropMngExamination()
     await dropMngRecord()
     // create
-    const create_res = await Promise.all([
+    await Promise.all([
       createMemberAdminTable(),
       createMemberTable(),
       createSystemConfig(),
@@ -68,7 +68,6 @@ router.get('/db/init', async (req, res) => {
       createMngExamination(),
       createMngRecord(),
     ])
-    console.log('create_res', create_res);
     const get_config = await system_config.getAll()
     if (!get_config || get_config?.length === 0) {
       const create_config = await system_config.create('root', '1234qwer', false)
