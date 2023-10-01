@@ -69,7 +69,7 @@ params: {
     user_name: string; //農友姓名
     user_phone: string; //農友電話
     user_email: string; //農友 Email
-    hidden: string;
+    hidden: boolean;
 }
 ```
 ```
@@ -118,6 +118,14 @@ headers: authorization
 query: {
   id: string;
 }
+response: {
+  id: string;
+  name: string;
+  species: string;
+  hidden: boolean;
+  created_at: string;
+  last_updated: string;
+}
 ```
 ```
 服務處建檔/更新
@@ -147,7 +155,7 @@ response: {
   location: string;
   contact: string;
   phone: string;
-  hidden: string;
+  hidden: boolean;
   created_at: string;
   last_updated: string;
 }
@@ -182,7 +190,7 @@ response: {
   bug: string;
   symptoms: string;
   body_part: string;
-  hidden: string;
+  hidden: boolean;
   created_at: string;
   last_updated: string;
 }
