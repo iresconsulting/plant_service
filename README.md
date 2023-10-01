@@ -216,7 +216,7 @@ response: {
   type: 'user' || 'guest' //帳號類型, user=專家, guest=諮詢單位
 ```
 ```
-系統專家, 諮詢單位帳戶與系統管理員帳戶驗證
+系統專家帳戶, 諮詢單位帳戶, 與系統管理員帳戶驗證
 GET /sys/user/login
 headers: {
   authorization: Bearer
