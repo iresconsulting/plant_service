@@ -64,16 +64,16 @@ headers: {
 params: {
   action_type: 'insert';
   id: string;
-  time: string;
-  location: string;
-  agriculture: string; //植物名稱
+  time: string; //時間
+  location: string; //地點
+  agriculture: string; //作物名稱
   symptoms: string; //病徵
   body_part: string; //部位
   raised_method: string; //栽培方式
   user_name: string; //農友姓名
   user_phone: string; //農友電話
   user_email: string; //農友 Email
-  hidden: boolean;
+  hidden: boolean; //是否顯示於列表
 }
 ```
 ```
@@ -103,7 +103,7 @@ params: {
 }
 ```
 ```
-植物建檔/更新
+作物建檔/更新
 POST /sys/agriculture
 headers: {
   authorization: Bearer
@@ -112,11 +112,11 @@ body: {
   id: string;
   name: string;
   species: string; //科目
-  hidden: boolean;
+  hidden: boolean; //是否顯示於列表
 }
 ```
 ```
-植物列表
+作物列表
 GET /sys/agriculture
 headers: authorization
 query: {
@@ -143,7 +143,7 @@ body: {
   location: string;
   contact: string; //聯絡人
   phone: string;
-  hidden: boolean;
+  hidden: boolean; //是否顯示於列表
 }
 ```
 ```
@@ -177,7 +177,7 @@ body: {
   bug: string; //蟲害
   symptoms: string; //病徵
   body_part: string; //部位
-  hidden: boolean;
+  hidden: boolean; //是否顯示於列表
 }
 ```
 ```
