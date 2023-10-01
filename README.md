@@ -58,18 +58,18 @@ headers: {
   authorization: Bearer
 }
 params: {
-    action_type: 'insert';
-    id: string;
-    time: string;
-    location: string;
-    agriculture: string; //植物名稱
-    symptoms: string; //病徵
-    body_part: string; //部位
-    raised_method: string; //栽培方式
-    user_name: string; //農友姓名
-    user_phone: string; //農友電話
-    user_email: string; //農友 Email
-    hidden: boolean;
+  action_type: 'insert';
+  id: string;
+  time: string;
+  location: string;
+  agriculture: string; //植物名稱
+  symptoms: string; //病徵
+  body_part: string; //部位
+  raised_method: string; //栽培方式
+  user_name: string; //農友姓名
+  user_phone: string; //農友電話
+  user_email: string; //農友 Email
+  hidden: boolean;
 }
 ```
 ```
