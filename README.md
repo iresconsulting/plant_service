@@ -98,7 +98,7 @@ params: {
   action_type: 'status';
   id: string;
   status: string; //done=已診斷, processing=待診斷
-  response: string; //診斷回饋內容
+  response: string; //診斷回饋內容 (0-500字)
   expert_name: string; //診斷專家名稱
 }
 ```
