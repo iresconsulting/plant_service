@@ -30,6 +30,10 @@ headers: {
 }
 query: {
   id: string;
+  agriculture: stirng;
+  symptoms: stirng;
+  body_part: stirng;
+  expert_name: stirng;
 }
 response: {
   id: stirng;
@@ -93,7 +97,7 @@ headers: {
 params: {
   action_type: 'status';
   id: string;
-  status: string;
+  status: string; //done=已診斷, processing=待診斷
   response: string;
   expert_name: string; //診斷專家名稱
 }
