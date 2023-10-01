@@ -27,7 +27,7 @@ namespace mng_record {
     let sql = `
       SELECT *
       FROM mng_record
-      ORDER BY last_updated DESC
+      ORDER BY created_at DESC
     `
 
     try {
@@ -44,7 +44,7 @@ namespace mng_record {
       SELECT *
       FROM mng_record
       WHERE id = $1
-      ORDER BY last_updated DESC
+      ORDER BY created_at DESC
     `
 
     try {
