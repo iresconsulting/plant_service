@@ -85,7 +85,7 @@ headers: {
 params: {
   action_type: 'video';
   id: string;
-  video_url: string;
+  video_url: string; //影片網址
 }
 ```
 ```
