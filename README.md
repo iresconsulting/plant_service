@@ -259,6 +259,8 @@ body: {
 ```
 資料庫建置
 GET /db/init
+requirements:
+  1. system.env.ALLOW_DB_INIT: 'true'
 query: {
   drop: boolean; //清除所有資料與重新建構資料表
 }
