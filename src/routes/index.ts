@@ -69,21 +69,17 @@ router.get('/db/init', async (req, res) => {
       createMngRecord(),
     ])
     console.log('create_res', create_res);
-    const config = await system_config.create('root', '1234qwer', false)
-    // const member = await Member.create({
-    //   employee_id: 'user',
-    //   basic_name: 'user',
-    //   basic_govid: 'A123456789',
-    //   basic_birthday: '1970-01-01',
-    //   system_username: 'user',
-    //   system_password: '1234qwer',
-    // })
-    console.log('config', config);
-    // console.log('member', member);
+    const get_config = await system_config.getAll()
+    if (!get_config || get_config?.length === 0) {
+      const create_config = await system_config.create('root', '1234qwer', false)
+      console.log('config', create_config);
+    } else {
+      console.log('config', get_config);
+    }
     console.log('---tx end---');
     return HttpRes.send200(res)
   } catch(e) {
-    console.log('e', e);
+    console.log('[api] /db/init Error', String(e));
     return HttpRes.send500(res, String(e))
   }
 })
