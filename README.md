@@ -256,3 +256,10 @@ body: {
   pwd: string; //系統管理員登入密碼
 }
 ```
+```
+資料庫建置
+GET /db/init
+query: {
+  drop: boolean; //清除所有資料與重新建構資料表
+}
+```
