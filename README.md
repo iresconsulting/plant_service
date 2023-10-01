@@ -203,8 +203,8 @@ response: {
 系統登入
 POST /sys/user/login
 body: {
-  account: string;
-  paassword: string;
+  account: string; //帳號 (Email)
+  paassword: string; //密碼
 }
 ```
 ```
