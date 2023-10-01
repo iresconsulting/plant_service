@@ -207,10 +207,12 @@ body: {
   paassword: string; //密碼
 }
 response: {
+  name: string; //名稱
   account: string; //帳號
   email: string;
   phone: string; //聯絡電話
   token: string; //系統驗證金鑰
+  hidden: boolean; //登入權限允許/註銷
 }
 ```
 ```
@@ -218,6 +220,14 @@ response: {
 GET /sys/user/login
 headers: {
   authorization: Bearer
+}
+response: {
+  name: string; //名稱
+  account: string; //帳號
+  email: string;
+  phone: string; //聯絡電話
+  token: string; //系統驗證金鑰
+  hidden: boolean; //登入權限允許/註銷
 }
 ```
 ```
