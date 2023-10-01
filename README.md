@@ -1,6 +1,6 @@
 # 病蟲害診斷服務系統
 
-### Build for Production
+### 正式環境建構指令
 ```
 $ apt install nodejs
 $ apt install npm
@@ -10,7 +10,7 @@ $ yarn build
 $ yarn start
 ```
 
-### Endpoints
+### API 接口
 ```
 Health check
 GET /health
