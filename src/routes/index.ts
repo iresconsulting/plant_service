@@ -40,21 +40,24 @@ router.get('/health', (req, res) => {
 
 router.get('/db/init', async (req, res) => {
   try {
+    const { drop } = req.query
     if (process.env.ALLOW_DB_INIT !== 'true') {
       return HttpRes.send401(res)
     }
     console.log('[db] ---tx start---');
-    // drop
-    await dropMemberTable()
-    await dropMemberAdmimTable()
-    await dropSystemConfig()
-    await dropUserRoleTable()
-    await dropSysAgriculture()
-    await dropSysDisease()
-    await dropSysUnit()
-    await dropSysUser()
-    await dropMngExamination()
-    await dropMngRecord()
+    if (drop === 'true') {
+      // drop
+      await dropMemberTable()
+      await dropMemberAdmimTable()
+      await dropSystemConfig()
+      await dropUserRoleTable()
+      await dropSysAgriculture()
+      await dropSysDisease()
+      await dropSysUnit()
+      await dropSysUser()
+      await dropMngExamination()
+      await dropMngRecord()
+    }
     // create
     await Promise.all([
       createMemberAdminTable(),
