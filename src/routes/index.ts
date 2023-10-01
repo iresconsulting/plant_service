@@ -40,10 +40,10 @@ router.get('/health', (req, res) => {
 
 router.get('/db/init', async (req, res) => {
   try {
-    const { drop } = req.query
     if (process.env.ALLOW_DB_INIT !== 'true') {
       return HttpRes.send401(res)
     }
+    const { drop } = req.query
     console.log('[db] ---tx start---');
     if (drop === 'true') {
       // drop
