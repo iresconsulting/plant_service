@@ -215,7 +215,7 @@ headers: {
 }
 ```
 ```
-系統設定
+系統設定更新
 POST /config
 headers: {
   authorization: Bearer
