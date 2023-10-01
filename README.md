@@ -200,7 +200,7 @@ response: {
 }
 ```
 ```
-檔案上傳
+共用影片上傳
 POST /file/uploads
 headers: {
   authorization: Bearer
