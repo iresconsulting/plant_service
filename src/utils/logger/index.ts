@@ -8,10 +8,10 @@ namespace Logger {
     HTTP = 'HTTP',
     JOB = 'JOB',
     METRICS = 'METRICS',
-    PUPPETEER = 'MOD_PUPPETEER',
-    PG = 'DB',
-    MONGO = 'DB_MONGO',
-    FIREBASE = 'MOD_FIREBASE',
+    PUPPETEER = 'PUPPETEER',
+    PG = 'SQL',
+    MONGO = 'MONGO_DB',
+    FIREBASE = 'FIREBASE',
     GCP = 'GCP',
   }
 
