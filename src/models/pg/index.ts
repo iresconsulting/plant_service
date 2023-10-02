@@ -3,7 +3,6 @@ import Logger from '~/src/utils/logger'
 import initMysql from '../mysql'
 
 const env = process.env
-const connectionString: string = env.PG_URI || 'postgres://nijthssr:h6Rh5hjnvyyhTDaPFFTfzAB7Kgmbe2nh@satao.db.elephantsql.com/nijthssr'
 
 export let client: Client | any
 
@@ -16,6 +15,7 @@ export namespace Pg {
 }
 
 async function setPgConnection() {
+  const connectionString: string = env.PG_URI || 'postgres://nijthssr:h6Rh5hjnvyyhTDaPFFTfzAB7Kgmbe2nh@satao.db.elephantsql.com/nijthssr'
   const cl = new Client({
     connectionString,
   })
