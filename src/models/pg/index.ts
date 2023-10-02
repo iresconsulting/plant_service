@@ -46,7 +46,7 @@ export default async function initPg(): Promise<void> {
             sql,
             timeout: 40000,
             values: [...params]
-          }).then((error, results, fields) => {
+          }).then((error: any, results: any[], fields: any) => {
             if (error || !Array.isArray(results)) {
               throw new Error(String(error))
               return false
