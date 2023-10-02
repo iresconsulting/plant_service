@@ -38,6 +38,7 @@ export default async function initPg(): Promise<void> {
     // Add mysql option
     if (env.DB_TYPE === 'mysql') {
       client = await initMysql()
+      // overwrite default mysql driver funcion to match that of pg
       client = {
         ...client,
         query: async function(...args) {
