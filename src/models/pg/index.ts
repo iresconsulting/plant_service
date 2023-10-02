@@ -42,20 +42,22 @@ export default async function initPg(): Promise<void> {
       client = {
         ...client,
         query: function(sql: string, params: any[], ...args) {
-          function cb(error: any, results: any[], fields: any) {
-            if (error || !Array.isArray(results)) {
-              throw new Error(String(error))
+          return new Promise((resolve, reject) => {
+            function cb(error: any, results: any[], fields: any) {
+              if (error || !Array.isArray(results)) {
+                reject(String(error))
+              }
+              resolve({
+                rows: results,
+                fields,
+              })
             }
-            return Promise.resolve({
-              rows: results,
-              fields,
-            })
-          }
-          client.query({
-            sql,
-            timeout: 40000,
-            values: [...params]
-          }, cb)
+            client.query({
+              sql,
+              timeout: 40000,
+              values: [...params]
+            }, cb)
+          })
         }
       }
     } else {
