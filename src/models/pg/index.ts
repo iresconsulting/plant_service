@@ -38,6 +38,20 @@ export default async function initPg(): Promise<void> {
     // Add mysql option
     if (env.DB_TYPE === 'mysql') {
       client = await initMysql()
+      client = {
+        ...client,
+        query: async function(...args) {
+          return await client.query(...args).then((error, results, fields) => {
+            if (error) {
+              return false
+            }
+            return {
+              rows: results,
+              fields,
+            }
+          })
+        }
+      }
     } else {
       client = await setPgConnection()
     }
