@@ -9,7 +9,7 @@ namespace Logger {
     JOB = 'JOB',
     METRICS = 'METRICS',
     PUPPETEER = 'MOD_PUPPETEER',
-    PG = 'DB_POSTGRES',
+    PG = 'DB',
     MONGO = 'DB_MONGO',
     FIREBASE = 'MOD_FIREBASE',
     GCP = 'GCP',
