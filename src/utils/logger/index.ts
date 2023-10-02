@@ -16,7 +16,7 @@ namespace Logger {
   }
 
   export function generateTimeLog({ label, message }: { label: Labels, message: string }) {
-    const _timestamp = moment.tz(LOG_TIMEZONE).toISOString(true)
+    const _timestamp = moment.tz(LOG_TIMEZONE).format('YYYY/MM/DD HH:mm:ss')
     console.log(`[${_timestamp}] [${label}] ${message}`)
   }
 }
