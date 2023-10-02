@@ -41,8 +41,12 @@ export default async function initPg(): Promise<void> {
       // overwrite default mysql driver funcion to match that of pg
       client = {
         ...client,
-        query: async function(...args) {
-          return await client.query(...args).then((error, results, fields) => {
+        query: async function(sql: string, params: any[], ...args) {
+          return await client.query({
+            sql,
+            timeout: 40000,
+            values: [...params]
+          }).then((error, results, fields) => {
             if (error || !Array.isArray(results)) {
               throw new Error(String(error))
               return false
