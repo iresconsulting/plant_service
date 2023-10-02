@@ -41,21 +41,21 @@ export default async function initPg(): Promise<void> {
       // overwrite default mysql driver funcion to match that of pg
       client = {
         ...client,
-        query: async function(sql: string, params: any[], ...args) {
-          return await client.query({
+        query: function(sql: string, params: any[], ...args) {
+          function cb(error: any, results: any[], fields: any) {
+            if (error || !Array.isArray(results)) {
+              throw new Error(String(error))
+            }
+            return Promise.resolve({
+              rows: results,
+              fields,
+            })
+          }
+          client.query({
             sql,
             timeout: 40000,
             values: [...params]
-          }).then((error: any, results: any[], fields: any) => {
-            if (error || !Array.isArray(results)) {
-              throw new Error(String(error))
-              return false
-            }
-            return {
-              rows: results,
-              fields,
-            }
-          })
+          }, cb)
         }
       }
     } else {
