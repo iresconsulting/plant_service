@@ -16,7 +16,8 @@ export default function initMysql() {
       if (error) {
         throw error;
       }
-      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `SELECT NOW(): ${JSON.stringify(res[0].solution)}` })
+      // Logger.generateTimeLog({ label: Logger.Labels.PG, message: `SELECT NOW(): ${JSON.stringify(res[0].solution)}` })
+      Logger.generateTimeLog({ label: Logger.Labels.PG, message: `SELECT NOW(): ${Date.now()}` })
     })
     return connection
   } catch (err: unknown) {
