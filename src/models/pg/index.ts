@@ -42,7 +42,7 @@ export default async function initPg(): Promise<void> {
         ...client,
         query: async function(...args) {
           return await client.query(...args).then((error, results, fields) => {
-            if (error) {
+            if (error || !Array.isArray(results)) {
               throw new Error(String(error))
               return false
             }
