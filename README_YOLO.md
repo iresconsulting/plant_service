@@ -2,11 +2,12 @@
 
 ### 正式環境建構指令
 ```
-$ 請前往 python 官網：https://www.python.org/downloads/，下載 ^3.11 版本。
-$ 請至 CMAKE 官網：https://cmake.org/download/，下載最新版本。
-$ 請至 Visual studio 官網：https://visualstudio.microsoft.com，下載最新版本。
-$ 安裝 Visual Studio 請勾選「Python開發」與「使用C++的桌面開發」，並按安裝即可。
-$ 請至 Open CV 官網 https://opencv.org/releases/page，下載 ^4.1.0 版本。
+$ 至 python 官網：https://www.python.org/downloads/，下載 ^3.11 版本並安裝。
+$ 將 python 安裝路徑加入 PATH。
+$ 至 CMAKE 官網：https://cmake.org/download/，下載最新版本並安裝。
+$ 至 Visual studio 官網：https://visualstudio.microsoft.com，下載最新版本並安裝。
+$ 安裝 Visual Studio ， 勾選「Python開發」與「使用C++的桌面開發」，並按安裝。
+$ 至 Open CV 官網 https://opencv.org/releases/page，下載 ^4.1.0 版本。
 $ 前往 https://github.com/opencv/opencv_contrib，點選 code/Download ZIP。
 $ 解壓縮 opencv-4.1.0 以及 opencv_contrib-master 檔案，並將這兩個檔案放在指定路徑內，並創建一個 build 資料夾，該路徑以下簡稱 path。 
 $ 開啟 CMAKE。
@@ -14,7 +15,7 @@ $ 設定路徑， source code=path/opencv-4.1.0， build binaries=path/build。
 $ 點選 Configure。
 $ 設定 generator for this project=下載的 Visual Studio 版本， optional platform = x64。
 $ 下滑列表至 build_opencv_world 並將其打勾後，按下 generate。
-$ 請至 path\build 找到 ALL_BUILD.vcxproj 檔案並開啟。
+$ 至 path\build 找到 ALL_BUILD.vcxproj 檔案並開啟。
 $ 將 Visual Studio 工作列上方的 Debug 改選為 release。
 $ 至「方案總管」展開 CMakeTargets 找到 ALL_BUILD，按右鍵，並點選建置 (BUILD)。
 $ 至「方案總管」展開 CMakeTargets 找到 INSTALL (BUILD)。
