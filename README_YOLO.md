@@ -55,7 +55,7 @@ $ 新增檔案 build\darknet\x64\data\obj.data:
     names = data/obj.names
     backup = backup/
   }
-$ 新增 build\darknet\x64\data\obj\ 目錄，並複製訓練資料(*.jpg、 *.txt) 至該目錄。
+$ 新增 build\darknet\x64\data\obj\ 目錄，並複製訓練資料至該目錄。
 $ 新增檔案 build\darknet\x64\data\train.txt，檔案內容為每個圖像檔名。前面加data/obj/。
 $ 訓練指令如下，若訓練時有些檔案找不到，試著將檔名及txt檔名改短：
 darknet.exe detector train data/obj.data cfg/yolo-obj.cfg weights/yolov4.conv.137
