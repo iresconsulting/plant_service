@@ -58,13 +58,11 @@ $ [yolo] 段落的 classes=80 更改為 classes=1 (共3個)。
 $ [convolutional] 段落的 filters=255 更改為 filters=18，共3個，請小心修改，filters 值須視類別個數調整，公式為(類別個數+5) x 3。
 $ 新增檔案 build\darknet\x64\data\obj.names，須列出所有類別。
 $ 新增檔案 build\darknet\x64\data\obj.data:
-  {
-    classes = 1
-    train = data/train.txt
-    valid = data/test.txt
-    names = data/obj.names
-    backup = backup/
-  }
+  classes = 1
+  train = data/train.txt
+  valid = data/test.txt
+  names = data/obj.names
+  backup = backup/
 $ 新增 build\darknet\x64\data\obj\ 目錄，並複製訓練資料至該目錄。
 $ 新增檔案 build\darknet\x64\data\train.txt，檔案內容為每個圖像檔名。前面加data/obj/。
 $ 訓練指令 (若訓練時有些檔案找不到，試著將檔名及txt檔名改短)
