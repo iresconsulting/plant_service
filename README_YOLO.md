@@ -45,7 +45,7 @@ $ 輸入這個物件的名稱 (Ex. XYZ蟲害)。
 $ 按照上述的物件標註方式，把照片中的每一個物件都標示好。
 $ 當一張圖片上的物件都標註完成後，按下左側的「Save」鍵儲存，LabelImg 會使用 XML 格式來儲存標註資訊。
 ```
-![alt text](https://github.com/iresconsulting/plant_service/blob/main/yolo_result.png?raw=true)
+![alt text](https://github.com/iresconsulting/plant_service/blob/main/yolo_mark.png?raw=true)
 2. 模型訓練
 ```
 $ 新增 weights 目錄，並下載預訓模型 yolov4.conv.137 至該目錄。
