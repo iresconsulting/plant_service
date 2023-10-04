@@ -64,13 +64,14 @@ darknet.exe detector train data/obj.data cfg/yolo-obj.cfg backup\yolo-obj_2000.w
 ```
 ## 3. 模型測試
 ```
-$ 修改darknet.py 最後第三行，指定相關設定檔：
+修改darknet.py 最後第三行，指定相關設定檔：
 ```
 ```python
 import sys
 
 print(performDetect(sys.argv[1], configPath = "./cfg/yolo-obj.cfg", weightPath = "./backup/yolo-obj_final.weights", metaPath= "./data/obj.data"))
 ```
+測試指令
 ```
-$ 測試指令: python .\darknet_custom.py data\obj\4616855_80b098a3_jpg.rf.a0a319f1836215681493f06c81856b99.jpg
+$ python .\darknet_custom.py data\obj\4616855_80b098a3_jpg.rf.a0a319f1836215681493f06c81856b99.jpg
 ```
