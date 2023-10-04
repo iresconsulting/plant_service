@@ -1,5 +1,13 @@
 # 病蟲害診斷服務系統 YOLO 模型建構
 
+### 環境
+```
+$ OS: Windows 11
+$ Processor: i7 11x
+$ GPU: Intel 20x
+$ RAM: 64G
+$ SSD: 256G
+```
 ### 正式環境建構指令
 ```
 $ 至 python 官網：https://www.python.org/downloads/，下載 ^3.11 版本並安裝。
