@@ -24,7 +24,7 @@ $ 1. 標註資料：可使用各式標註工具，將圖像內的物件框起來
 $ 2. 模型訓練：有了圖像及標註檔後，就可以進行模型訓練，以下會詳細介紹完整的程序。
 $ 3. 模型測試：測試步驟 #2 所訓練模型之結果。
 ```
-## 1. 標註資料
+### 1. 標註資料
 ```
 $ pip install labelImg
 $ labellmg
@@ -35,7 +35,7 @@ $ 輸入這個物件的名稱 (Ex. XYZ蟲害)。
 $ 按照上述的物件標註方式，把照片中的每一個物件都標示好。
 $ 當一張圖片上的物件都標註完成後，按下左側的「Save」鍵儲存，LabelImg 會使用 XML 格式來儲存標註資訊。
 ```
-## 2. 模型訓練
+### 2. 模型訓練
 ```
 $ 新增 weights 目錄，並下載預訓模型 yolov4.conv.137 至該目錄。
 $ 切換至 darknet-master\build\darknet\x64 目錄。
@@ -67,7 +67,7 @@ $ 訓練後的權重檔會儲存在backup目錄，檔名為 yolo-obj_final.weigh
 $ 如果訓練中途停止，或要延長訓練週期，可執行指令：
 $ darknet.exe detector train data/obj.data cfg/yolo-obj.cfg backup\yolo-obj_2000.weights
 ```
-## 3. 模型測試
+### 3. 模型測試
 ```
 修改darknet.py 最後第三行，指定相關設定檔：
 ```
