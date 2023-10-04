@@ -16,8 +16,8 @@ $ 設定 generator for this project=下載的 Visual Studio 版本， optional p
 $ 下滑列表至 build_opencv_world 並將其打勾後，按下 generate。
 $ 請至 path\build 找到 ALL_BUILD.vcxproj 檔案並開啟。
 $ 將 Visual Studio 工作列上方的 Debug 改選為 release。
-$ 到方案總管點開 CMakeTargets 找到 ALL_BUILD，按右鍵，並點選建置 (BUILD)。
-$ 到方案總管點開 CMakeTargets 找到 INSTALL (BUILD)。
+$ 至「方案總管」展開 CMakeTargets 找到 ALL_BUILD，按右鍵，並點選建置 (BUILD)。
+$ 至「方案總管」展開 CMakeTargets 找到 INSTALL (BUILD)。
 ```
 ### 模型訓練
 ```
