@@ -67,7 +67,7 @@ $ 新增檔案 build\darknet\x64\data\train.txt，檔案內容為每個圖像檔
 $ 訓練指令 (若訓練時有些檔案找不到，試著將檔名及txt檔名改短)
 $ darknet.exe detector train data/obj.data cfg/yolo-obj.cfg weights/yolov4.conv.137
 ```
-![alt text](https://github.com/iresconsulting/plant_service/blob/main/yolo_result.jpg?raw=true)
+![alt text](https://github.com/iresconsulting/plant_service/blob/main/yolo_result.png?raw=true)
 
 備註
 ```
