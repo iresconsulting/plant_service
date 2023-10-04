@@ -57,8 +57,11 @@ $ 新增檔案 build\darknet\x64\data\obj.data:
   }
 $ 新增 build\darknet\x64\data\obj\ 目錄，並複製訓練資料至該目錄。
 $ 新增檔案 build\darknet\x64\data\train.txt，檔案內容為每個圖像檔名。前面加data/obj/。
-$ 訓練指令如下，若訓練時有些檔案找不到，試著將檔名及txt檔名改短：
-darknet.exe detector train data/obj.data cfg/yolo-obj.cfg weights/yolov4.conv.137
+$ 訓練指令 (若訓練時有些檔案找不到，試著將檔名及txt檔名改短)
+$ darknet.exe detector train data/obj.data cfg/yolo-obj.cfg weights/yolov4.conv.137
+```
+備註
+```
 $ 訓練約耗時 3-6 小時，訓練結果會存至 chart_yolo-obj.png。
 $ 訓練後的權重檔會儲存在backup目錄，檔名為 yolo-obj_final.weights。
 $ 如果訓練中途停止，或要延長訓練週期，可執行指令：
