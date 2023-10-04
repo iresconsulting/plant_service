@@ -27,7 +27,9 @@ $ 至「方案總管」展開 CMakeTargets 找到 ALL_BUILD，按右鍵，並點
 $ 至「方案總管」展開 CMakeTargets 找到 INSTALL，按右鍵，並點選建置 (BUILD)。
 ```
 建構結果
+```
 ![alt text](https://github.com/iresconsulting/plant_service/blob/main/yolo_build.png?raw=true)
+```
 
 ### 模型訓練
 ```
