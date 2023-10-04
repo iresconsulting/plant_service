@@ -8,7 +8,7 @@ $ GPU: Intel >=20x
 $ RAM: >=64G
 $ SSD: >=1TB
 ```
-### 正式環境建構指令
+### 建構指令
 ```
 $ 至 python 官網：https://www.python.org/downloads/，下載 >=3.7.7 版本並安裝。
 $ 將 python 安裝路徑加入 PATH。
