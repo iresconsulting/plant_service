@@ -3,10 +3,10 @@
 ### 環境
 ```
 $ OS: Windows 11
-$ Processor: i7 11x
-$ GPU: Intel 20x
-$ RAM: 64G
-$ SSD: 256G
+$ Processor: i7 >=11x
+$ GPU: Intel >=20x
+$ RAM: >=64G
+$ SSD: >=1TB
 ```
 ### 正式環境建構指令
 ```
