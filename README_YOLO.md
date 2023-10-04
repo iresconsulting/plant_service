@@ -69,7 +69,7 @@ $ darknet.exe detector train data/obj.data cfg/yolo-obj.cfg backup\yolo-obj_2000
 ```
 ### 3. 模型測試
 ```
-修改darknet.py 最後第三行，指定相關設定檔：
+修改 darknet.py 倒數第三行，指定相關設定檔
 ```
 ```python
 import sys
