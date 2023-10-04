@@ -45,6 +45,7 @@ $ 輸入這個物件的名稱 (Ex. XYZ蟲害)。
 $ 按照上述的物件標註方式，把照片中的每一個物件都標示好。
 $ 當一張圖片上的物件都標註完成後，按下左側的「Save」鍵儲存，LabelImg 會使用 XML 格式來儲存標註資訊。
 ```
+![alt text](https://github.com/iresconsulting/plant_service/blob/main/yolo_result.png?raw=true)
 2. 模型訓練
 ```
 $ 新增 weights 目錄，並下載預訓模型 yolov4.conv.137 至該目錄。
@@ -54,7 +55,7 @@ $ max_batches=2000：公式為 類別數(classes) x 2000。
 $ steps=1600,1800：公式為 max_batches 的 80%、90%。
 $ 設定模型輸入的圖像尺寸。width=416，height=416。
 $ [yolo] 段落的 classes=80 更改為 classes=1 (共3個)。
-$ [yolo] 段落的上面一個[convolutional]段落的filters=255更改為filters=18，共3個，請小心修改，filters值須視類別個數調整，公式為(類別個數+5) x 3。
+$ [convolutional] 段落的 filters=255 更改為 filters=18，共3個，請小心修改，filters 值須視類別個數調整，公式為(類別個數+5) x 3。
 $ 新增檔案 build\darknet\x64\data\obj.names，須列出所有類別。
 $ 新增檔案 build\darknet\x64\data\obj.data:
   {
