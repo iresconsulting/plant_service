@@ -46,13 +46,15 @@ $ steps=1600,1800：公式為 max_batches 的 80%、90%。
 $ 設定模型輸入的圖像尺寸。width=416，height=416。
 $ [yolo] 段落的classes=80更改為classes=1：共3個，可直接使用編輯器的『取代』直接置換，須視類別個數調整。
 $ [yolo] 段落的上面一個[convolutional]段落的filters=255更改為filters=18，共3個，請小心修改，filters值須視類別個數調整，公式為(類別個數+5) x 3。
-$ 新增檔案 build\darknet\x64\data\obj.names，內容如下，須列出所有類別：
+$ 新增檔案 build\darknet\x64\data\obj.names，須列出所有類別。
 $ 新增檔案 build\darknet\x64\data\obj.data:
-classes = 1
-train = data/train.txt
-valid = data/test.txt
-names = data/obj.names
-backup = backup/
+  {
+    classes = 1
+    train = data/train.txt
+    valid = data/test.txt
+    names = data/obj.names
+    backup = backup/
+  }
 $ 新增 build\darknet\x64\data\obj\ 目錄，並複製訓練資料(*.jpg、 *.txt) 至該目錄。
 $ 新增檔案 build\darknet\x64\data\train.txt，檔案內容為每個圖像檔名。前面加data/obj/。
 $ 訓練指令如下，若訓練時有些檔案找不到，試著將檔名及txt檔名改短：
