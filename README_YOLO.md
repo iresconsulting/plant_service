@@ -14,7 +14,7 @@ $ 至 python 官網：https://www.python.org/downloads/，下載 >=3.7.7 版本�
 $ 將 python 安裝路徑加入 PATH。
 $ 至 CMAKE 官網：https://cmake.org/download/，下載最新版本並安裝。
 $ 至 Visual studio 官網：https://visualstudio.microsoft.com，下載最新版本並安裝。
-$ 安裝 Visual Studio ， 勾選「Python開發」與「使用C++的桌面開發」，並按安裝。
+$ 安裝 Visual Studio，勾選「Python開發」與「使用C++的桌面開發」，並按安裝。
 $ 至 Open CV 官網 https://opencv.org/releases/page，下載 =4.1.0 版本。
 $ 至 https://github.com/opencv/opencv_contrib，點選 code/Download ZIP。
 $ 解壓縮 opencv-4.1.0 以及 opencv_contrib-master 檔案，並將這兩個檔案放在指定路徑內，並創建一個 build 資料夾，該路徑以下簡稱 path。 
