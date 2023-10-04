@@ -19,7 +19,7 @@ $ 至 Open CV 官網 https://opencv.org/releases/page，下載 =4.1.0 版本。
 $ 至 https://github.com/opencv/opencv_contrib，點選 code/Download ZIP。
 $ 解壓縮 opencv-4.1.0 以及 opencv_contrib-master 檔案，並將這兩個檔案放在指定路徑內，並創建一個 build 資料夾，該路徑以下簡稱 path。 
 $ 開啟 CMAKE，設定路徑， source code=path/opencv-4.1.0， build binaries=path/build。
-$ 點選 Configure，設定 generator for this project=下載的 Visual Studio 版本， optional platform=x64。
+$ 點選 Configure，設定 generator for this project=安裝的 Visual Studio 版本， optional platform=x64。
 $ 下滑列表至 build_opencv_world 並將其打勾後，按下 generate。
 $ 至 path\build 找到 ALL_BUILD.vcxproj 檔案並開啟。
 $ 將 Visual Studio 工作列上方的 Debug 改選為 release。
