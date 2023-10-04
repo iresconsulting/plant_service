@@ -8,12 +8,10 @@ $ 至 CMAKE 官網：https://cmake.org/download/，下載最新版本並安裝�
 $ 至 Visual studio 官網：https://visualstudio.microsoft.com，下載最新版本並安裝。
 $ 安裝 Visual Studio ， 勾選「Python開發」與「使用C++的桌面開發」，並按安裝。
 $ 至 Open CV 官網 https://opencv.org/releases/page，下載 ^4.1.0 版本。
-$ 前往 https://github.com/opencv/opencv_contrib，點選 code/Download ZIP。
+$ 至 https://github.com/opencv/opencv_contrib，點選 code/Download ZIP。
 $ 解壓縮 opencv-4.1.0 以及 opencv_contrib-master 檔案，並將這兩個檔案放在指定路徑內，並創建一個 build 資料夾，該路徑以下簡稱 path。 
-$ 開啟 CMAKE。
-$ 設定路徑， source code=path/opencv-4.1.0， build binaries=path/build。
-$ 點選 Configure。
-$ 設定 generator for this project=下載的 Visual Studio 版本， optional platform = x64。
+$ 開啟 CMAKE，設定路徑， source code=path/opencv-4.1.0， build binaries=path/build。
+$ 點選 Configure，設定 generator for this project=下載的 Visual Studio 版本， optional platform = x64。
 $ 下滑列表至 build_opencv_world 並將其打勾後，按下 generate。
 $ 至 path\build 找到 ALL_BUILD.vcxproj 檔案並開啟。
 $ 將 Visual Studio 工作列上方的 Debug 改選為 release。
@@ -32,8 +30,8 @@ $ pip install labelImg
 $ labellmg
 $ 開啟 LabelImg 之後，首先開啟想要進行標註的圖片檔，開啟時可以選擇「Open」開啟單張圖檔，或是以「Open Dir」開啟整個目錄中所有的圖檔。
 $ 在照片上點選滑鼠右鍵，在右鍵選單中點選「Create RectBox」。
-$ 使用滑鼠將目標框起來。
-$ 輸入這個物件的名稱。
+$ 使用滑鼠將「目標」框起來。
+$ 輸入這個物件的名稱 (Ex. XYZ蟲害)。
 $ 按照上述的物件標註方式，把照片中的每一個物件都標示好。
 $ 當一張圖片上的物件都標註完成後，按下左側的「Save」鍵儲存，LabelImg 會使用 XML 格式來儲存標註資訊。
 ```
